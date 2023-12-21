@@ -40,12 +40,45 @@ const spending_table = new mongoose.Schema({
 const spending = new mongoose.model("Spending", spending_table);
 
 // Connexion to MongoDB
-mongoose.connect(`${url}.${dbName}`)
+mongoose.connect(url, { dbName: dbName });
+
+// check collection
+
+app.get('/check_collection', async (req, res) => {
+  try {
+    // Récupérer la liste des collections dans la base de données
+    const collections = await mongoose.connection.db.listCollections().toArray();
+
+    // Extraire les noms des collections
+    const collectionNames = collections.map(collection => collection.name);
+
+    // Envoyer les noms des collections en réponse
+    res.json({ collections: collectionNames });
+  } catch (error) {
+    console.error('Erreur lors de la récupération des collections :', error);
+    res.status(500).send('Erreur lors de la récupération des collections');
+  }
+});
+
+//delete all collection
+
+app.get('/delete_collections', async (req, res) => {
+  try {
+    await user.deleteMany({}); 
+    await category.deleteMany({});
+    await spending.deleteMany({});
+    
+    res.send('Contenu des collections vidé avec succès !');
+  } catch (error) {
+    console.error('Erreur lors de la suppression du contenu des collections :', error);
+    res.status(500).send('Erreur lors de la suppression du contenu des collections');
+  }
+});
 
 
 
 
-//delete table
+//delete user collection
 
 app.get('/delete_collection', async (req, res) => {
   try {
@@ -58,28 +91,34 @@ app.get('/delete_collection', async (req, res) => {
 });
 //create tables
 
-app.get("/create_table",async(req,res)=>{
-  try{
+app.get("/create_collections", async (req, res) => {
+  try {
     await user.createCollection();
-    res.write('Collection "user" créée avec succès !');
-    const new_user = new user({
-      mail:"kéké@gmail.com",
-      username:"kéké",
-      password:"kkékémdp"
-    })
-    const keke = await new_user.save();
-    console.log("kéké est créé ?", keke);
+    // const existingUser = await user.findOne({ username: "kéké" });
+
+    // if (existingUser) {
+    //   console.log("L'utilisateur 'kéké' existe déjà.");
+    // } else {
+    //   const new_user = new user({
+    //     mail: "kéké@gmail.com",
+    //     username: "kéké",
+    //     password: "kkékémdp"
+    //   });
+    //   const keke = await new_user.save();
+    //   console.log("kéké est créé ?", keke);
+    // }
+
     await category.createCollection();
-    res.write('Collection "category" créée avec succès !');
     await spending.createCollection();
-    res.end('Collection "speending" créée avec succès !');
 
+    res.send('Collections "user", "category", and "spending" créées avec succès !');
 
-  } catch(err){
-    console.error('Erreur lors de la création de la collection :', err);
-    res.status(500).send('Erreur lors de la création de la collection');
+  } catch (err) {
+    console.error('Erreur lors de la création des collections :', err);
+    res.status(500).send('Erreur lors de la création des collections');
   }
 });
+
 
 //listening the serv
 
