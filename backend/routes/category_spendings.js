@@ -1,0 +1,17 @@
+const express = require('express');
+const auth = require('../middleware/auth');
+const categorySpendingsCtrl = require('../controllers/category_spendings');
+
+const router = express.Router();
+
+router.post('/create', categorySpendingsCtrl.createCategory);
+router.post('/:id/spending-between-two-dates',categorySpendingsCtrl.getTotalSpendingsBetweenDates);
+// router.post('/:id/limit-between-two-dates',categorySpendingsCtrl.getTotalLimitsBetweenDates);
+
+router.delete('/delete/:id', categorySpendingsCtrl.deleteCategory);
+
+router.get('/',categorySpendingsCtrl.getAllCategories);
+router.get('/:id/limit',categorySpendingsCtrl.getMonthlyLimit);
+
+
+module.exports = router;

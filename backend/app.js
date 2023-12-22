@@ -6,9 +6,9 @@ const app = express();
 
 const userRoutes = require('./routes/user');
 const spendingRoutes = require('./routes/spending');
-const categoryRoutes = require('./routes/category');
-
-
+const categorySpendingsRoutes = require('./routes/category_spendings');
+const incomeRoutes = require('./routes/income');
+const categoryIncomesRoutes = require('./routes/category_incomes');
 
 const url = 'mongodb://mlebon:info734@193.48.125.44/Les<3bestiiiies?authMechanism=DEFAULT&authSource=admin';
 
@@ -34,8 +34,9 @@ app.use((req, res, next) => {
 // ROUTES
 app.use('/api/user', userRoutes);
 app.use('/api/spending', spendingRoutes);
-app.use('/api/category',categoryRoutes);
-
+app.use('/api/category_spendings',categorySpendingsRoutes);
+app.use('/api/income', incomeRoutes);
+app.use('/api/category_incomes',categoryIncomesRoutes);
   
 
 module.exports = app;

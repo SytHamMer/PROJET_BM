@@ -1,8 +1,8 @@
 const Spending = require('../models/spending');
-const Category = require('../models/category'); // Import category
+const Category = require('../models/category_spendings'); // Import category
 const jwt = require('jsonwebtoken');
 
-//create category 
+//create income 
 exports.createSpending = async (req, res, next) => {
     const { value, category } = req.body;
 
