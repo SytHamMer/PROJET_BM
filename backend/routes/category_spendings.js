@@ -13,6 +13,8 @@ router.delete('/deleteAll',categorySpendingsCtrl.deleteAllCategories);
 
 router.get('/',categorySpendingsCtrl.getAllCategories);
 router.get('/:id/limit',categorySpendingsCtrl.getMonthlyLimit);
+router.get('/byIdUser/:id',categorySpendingsCtrl.getByIDUser);
+
 
 
 module.exports = router;

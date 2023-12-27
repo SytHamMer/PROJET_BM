@@ -5,13 +5,17 @@ const moment = require('moment');
 
 // CREATE
 exports.createCategory = (req, res, next) => {
-  const { name, monthly_limit } = req.body;
-  const category = new CategorySpendings({ name, monthly_limit });
+  const { name, monthly_limit, idUser } = req.body;
+  const category = new CategorySpendings({ name, monthly_limit,idUser });
 
   category.save()
     .then(() => res.status(201).json({ message: 'Category created!' }))
     .catch(error => res.status(400).json({ error }));
 };
+
+
+
+
 // DELETE
 exports.deleteCategory = (req, res, next) => {
   const { id } = req.params;
@@ -30,6 +34,23 @@ exports.getAllCategories = (req, res, next) => {
     .catch(error => res.status(400).json({ error }));
 };
 
+
+// GET BYIDUSER
+
+
+// GET BYIDUSER
+
+exports.getByIDUser = (req, res, next) => {
+  const { id } = req.params;
+  console.log(id)
+  CategorySpendings.find({ idUser: id })
+    .then(categories => {
+      res.status(200).json({ categories });
+    })
+    .catch(error => {
+      res.status(400).json({ error });
+    });
+};
 
 // DELETE ALL CATEGORIES
 exports.deleteAllCategories = (req, res, next) => {
