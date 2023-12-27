@@ -4,10 +4,10 @@ const jwt = require('jsonwebtoken');
 
 //create income 
 exports.createIncome = async (req, res, next) => {
-    const { value, category } = req.body;
+    const { value, category,idUser } = req.body;
 
     try {
-        const newIncome = await Income.create({ value, category });
+        const newIncome = await Income.create({ value, category,idUser });
 
         // add the spending to the category
         await CategoryIncomes.findByIdAndUpdate(
@@ -53,6 +53,20 @@ exports.getAllIncomes = (req, res, next) => {
         .then(incomes => res.status(200).json(incomes))
         .catch(error => res.status(400).json({ error }));
 };
+
+// GET BYIDUSER
+
+exports.getByIDUser = (req, res, next) => {
+    const { id } = req.params;
+    console.log(id)
+    Income.find({ idUser: id })
+      .then(incomes => {
+        res.status(200).json({ incomes });
+      })
+      .catch(error => {
+        res.status(400).json({ error });
+      });
+  };
 
 
 // DELETE ALL INCOMES
