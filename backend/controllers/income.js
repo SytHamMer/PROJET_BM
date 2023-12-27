@@ -55,6 +55,14 @@ exports.getAllIncomes = (req, res, next) => {
 };
 
 
+// DELETE ALL INCOMES
+
+exports.deleteAllIncomes = (req, res, next) => {
+    Income.deleteMany()
+      .then(() => res.status(200).json({ message: 'All incomes deleted!' }))
+      .catch(error => res.status(400).json({ error }));
+  };
+
 //GET SUM ALL INCOMES
 
 exports.getSumAllIncomes = async (req, res, next) => {
