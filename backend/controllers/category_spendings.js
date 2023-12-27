@@ -31,6 +31,12 @@ exports.getAllCategories = (req, res, next) => {
 };
 
 
+// DELETE ALL CATEGORIES
+exports.deleteAllCategories = (req, res, next) => {
+  CategorySpendings.deleteMany()
+    .then(() => res.status(200).json({ message: 'All categories deleted!' }))
+    .catch(error => res.status(400).json({ error }));
+};
 // GET MONTHLY LIMIT
 exports.getMonthlyLimit = (req, res, next) => {
   const { id } = req.params;

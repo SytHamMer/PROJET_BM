@@ -53,3 +53,11 @@ exports.getAllSpendings = (req, res, next) => {
         .then(spendings => res.status(200).json(spendings))
         .catch(error => res.status(400).json({ error }));
 };
+
+
+// DELETE ALL SPENDINGS
+exports.deleteAllSpendings = (req, res, next) => {
+    Spending.deleteMany()
+      .then(() => res.status(200).json({ message: 'All spendings deleted!' }))
+      .catch(error => res.status(400).json({ error }));
+  };

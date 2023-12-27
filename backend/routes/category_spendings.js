@@ -9,6 +9,7 @@ router.post('/:id/spending-between-two-dates',categorySpendingsCtrl.getTotalSpen
 // router.post('/:id/limit-between-two-dates',categorySpendingsCtrl.getTotalLimitsBetweenDates);
 
 router.delete('/delete/:id', categorySpendingsCtrl.deleteCategory);
+router.delete('/deleteAll',categorySpendingsCtrl.deleteAllCategories);
 
 router.get('/',categorySpendingsCtrl.getAllCategories);
 router.get('/:id/limit',categorySpendingsCtrl.getMonthlyLimit);

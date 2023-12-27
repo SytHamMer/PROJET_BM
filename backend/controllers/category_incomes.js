@@ -30,6 +30,13 @@ exports.getAllCategories = (req, res, next) => {
     .catch(error => res.status(400).json({ error }));
 };
 
+// DELETE ALL CATEGORIES
+exports.deleteAllCategories = (req, res, next) => {
+  CategoryIncomes.deleteMany()
+    .then(() => res.status(200).json({ message: 'All categories deleted!' }))
+    .catch(error => res.status(400).json({ error }));
+};
+
 
 
 

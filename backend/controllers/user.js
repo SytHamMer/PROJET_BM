@@ -86,7 +86,12 @@ exports.getAllUser = (req, res, next) => {
     .then(users => res.status(200).json(users))
     .catch(error => res.status(400).json({ error }));
 }
-
+// DELETE ALL USERS
+exports.deleteAllUsers = (req, res, next) => {
+  User.deleteMany()
+    .then(() => res.status(200).json({ message: 'All users deleted!' }))
+    .catch(error => res.status(400).json({ error }));
+};
 
 
 // UPDATE PASSWORD
