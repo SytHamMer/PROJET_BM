@@ -7,6 +7,7 @@ const router = express.Router();
 router.post('/create', spendingCtrl.createSpending);
 
 router.delete('/delete/:id', spendingCtrl.deleteSpending);
+router.delete('/deleteAll', spendingCtrl.deleteAllSpendings)
 
 router.get('/',spendingCtrl.getAllSpendings);
 

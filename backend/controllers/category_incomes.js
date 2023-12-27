@@ -5,8 +5,11 @@ const moment = require('moment');
 
 // CREATE
 exports.createCategory = (req, res, next) => {
-  const {name} = req.body;
-  const category = new CategoryIncomes({ name });
+  const  name  = req.body.name;
+  const idUser  = req.body.idUser;
+  console.log(idUser); 
+  
+  const category = new CategoryIncomes({ name, idUser });
 
   category.save()
     .then(() => res.status(201).json({ message: 'Category created!' }))
@@ -27,6 +30,27 @@ exports.getAllCategories = (req, res, next) => {
   CategoryIncomes.find()
     .populate('incomes') // get spendings link to the category
     .then(categories => res.status(200).json(categories))
+    .catch(error => res.status(400).json({ error }));
+};
+
+// GET BYIDUSER
+
+exports.getByIDUser = (req, res, next) => {
+  const { id } = req.params;
+  console.log(id)
+  CategoryIncomes.find({ idUser: id })
+    .then(categories => {
+      res.status(200).json({ categories });
+    })
+    .catch(error => {
+      res.status(400).json({ error });
+    });
+};
+
+// DELETE ALL CATEGORIES
+exports.deleteAllCategories = (req, res, next) => {
+  CategoryIncomes.deleteMany()
+    .then(() => res.status(200).json({ message: 'All categories deleted!' }))
     .catch(error => res.status(400).json({ error }));
 };
 

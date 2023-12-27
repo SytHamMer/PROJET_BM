@@ -10,12 +10,9 @@ exports.createUser = (req,res,next) => {
         email: req.body.email,
         password: req.body.password
     });
-
     user.save()
         .then(() => res.status(201).json({ message: 'User created!'}))
         .catch(error => res.status(400).json({ error }));
-
-
 
 };
 
@@ -87,6 +84,21 @@ exports.getAllUser = (req, res, next) => {
     .catch(error => res.status(400).json({ error }));
 }
 
+// GET USER BY ID
+exports.getUserByID = (req, res, next) => {
+  const userId = req.params.id;
+  const user = User.findById(userId)
+  .then(user => res.status(200).json(user))
+  .catch(error => res.status(400).json({ error }));
+
+}
+
+// DELETE ALL USERS
+exports.deleteAllUsers = (req, res, next) => {
+  User.deleteMany()
+    .then(() => res.status(200).json({ message: 'All users deleted!' }))
+    .catch(error => res.status(400).json({ error }));
+};
 
 
 // UPDATE PASSWORD

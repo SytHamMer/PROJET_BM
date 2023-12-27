@@ -7,6 +7,7 @@ const router = express.Router();
 router.post('/create', incomeCtrl.createIncome);
 
 router.delete('/delete/:id', incomeCtrl.deleteIncome);
+router.delete('/deleteAll',incomeCtrl.deleteAllIncomes);
 
 router.get('/',incomeCtrl.getAllIncomes);
 router.get('/sum',incomeCtrl.getSumAllIncomes)
