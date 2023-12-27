@@ -1,16 +1,22 @@
 # School group Project
 
-### First FullStack Project 
+## First FullStack Project 
 
-####  Using:
+###  Using:
 - Angular
 - Nodejs
 - Mongodb
 
 
+### Authors
+
+- [@Mathys LEBON](https://github.com/SytHamMer)
+- [@Carlyne Barrachin](https://github.com/carlyyne)
+- [@Lila Cadoux](https://github.com/lilcdx)
 
 
-### Collaborators:
-- lilcdx
-- carlyyne
-- SytHamMer
+
+### License
+
+[MIT](https://choosealicense.com/licenses/mit/)
+

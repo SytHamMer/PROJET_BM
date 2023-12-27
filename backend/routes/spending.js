@@ -10,6 +10,8 @@ router.delete('/delete/:id', spendingCtrl.deleteSpending);
 router.delete('/deleteAll', spendingCtrl.deleteAllSpendings)
 
 router.get('/',spendingCtrl.getAllSpendings);
+router.get('/byIdUser/:id',spendingCtrl.getByIDUser);
+
 
 
 module.exports = router;

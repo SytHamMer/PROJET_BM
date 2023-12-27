@@ -2,12 +2,12 @@ const Spending = require('../models/spending');
 const Category = require('../models/category_spendings'); // Import category
 const jwt = require('jsonwebtoken');
 
-//create income 
+// CREATE SPENDING 
 exports.createSpending = async (req, res, next) => {
-    const { value, category } = req.body;
+    const { value, category,idUser } = req.body;
 
     try {
-        const newSpending = await Spending.create({ value, category });
+        const newSpending = await Spending.create({ value, category,idUser });
 
         // add the spending to the category
         await Category.findByIdAndUpdate(
@@ -23,7 +23,8 @@ exports.createSpending = async (req, res, next) => {
     }
 };
 
-// delete SPENDING
+// DELETE SPENDING
+
 exports.deleteSpending = async (req, res, next) => {
     const spendingId = req.params.id;
 
@@ -48,6 +49,7 @@ exports.deleteSpending = async (req, res, next) => {
 
 
 // GET ALL SPENDING
+
 exports.getAllSpendings = (req, res, next) => {
     Spending.find()
         .then(spendings => res.status(200).json(spendings))
@@ -55,7 +57,22 @@ exports.getAllSpendings = (req, res, next) => {
 };
 
 
+// GET BYIDUSER
+
+exports.getByIDUser = (req, res, next) => {
+    const { id } = req.params;
+    console.log(id)
+    Spending.find({ idUser: id })
+      .then(spendings => {
+        res.status(200).json({ spendings });
+      })
+      .catch(error => {
+        res.status(400).json({ error });
+      });
+  };
+
 // DELETE ALL SPENDINGS
+
 exports.deleteAllSpendings = (req, res, next) => {
     Spending.deleteMany()
       .then(() => res.status(200).json({ message: 'All spendings deleted!' }))

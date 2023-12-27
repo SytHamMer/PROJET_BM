@@ -11,6 +11,7 @@ router.delete('/deleteAll',incomeCtrl.deleteAllIncomes);
 
 router.get('/',incomeCtrl.getAllIncomes);
 router.get('/sum',incomeCtrl.getSumAllIncomes)
+router.get('/byIdUser/:id',incomeCtrl.getByIDUser);
 
 
 module.exports = router;
