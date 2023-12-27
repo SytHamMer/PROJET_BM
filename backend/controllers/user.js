@@ -86,6 +86,16 @@ exports.getAllUser = (req, res, next) => {
     .then(users => res.status(200).json(users))
     .catch(error => res.status(400).json({ error }));
 }
+
+// GET USER BY ID
+exports.getUserByID = (req, res, next) => {
+  const userId = req.params.id;
+  const user = User.findById(userId)
+  .then(user => res.status(200).json(user))
+  .catch(error => res.status(400).json({ error }));
+
+}
+
 // DELETE ALL USERS
 exports.deleteAllUsers = (req, res, next) => {
   User.deleteMany()
