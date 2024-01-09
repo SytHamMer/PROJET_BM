@@ -1,33 +1,73 @@
+import {Component} from '@angular/core';
+import {Router, RouterLink} from "@angular/router";
+import {FormsModule, NgForm} from "@angular/forms";
+import { User } from '../models/user.model';
+import { ConnexionService } from '../services/connexion.service';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterLink
+  ],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrl: './login.component.scss'
 })
-export class LoginComponent {
-  loginForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private router: Router) {
-    this.loginForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
-    });
+export class LoginComponent{
+  submit = false;
+  isLoading !: boolean;
+  userConnected!: User;
+  errorLogin !: any | undefined;
+
+  constructor(private router: Router,
+              protected connexionService: ConnexionService) {}
+
+  ngOnInit() {
+    this.isLoading = false;        
   }
 
-  signUp() {
-    this.router.navigateByUrl('signup');
-  }
 
+  onSubmit(f: NgForm) {
 
-  onSubmit() {
-    if (this.loginForm.valid) {
-      console.log('ok')
+    this.errorLogin = undefined;    
+    this.submit = true;
+    this.isLoading = true;
+    
+
+    if (f.value.email != ""  && f.value.password != "" && !this.errorLoginExist()){
+      this.connexionService.login(f.value.email, f.value.password)
+        .subscribe
+        (user => {
+          this.userConnected = user;
+          this.router.navigateByUrl("/home");
+        },
+        error => {
+          console.error('Erreur lors de la connexion :', error.error.message);
+          this.errorLogin = error.error;
+        })
+      
     }
+
   }
+
+  userConnectedIsLoaded() {
+    return this.userConnected !== undefined;
+  }
+
+  errorLoginExist() {
+    return this.errorLogin !== undefined;
+  }
+
+  errorIsEmail() {
+    return this.errorLogin.type === 'email';
+  }
+
+  errorIsPassword() {
+    return this.errorLogin.type === 'password';
+  }
+
 }
