@@ -5,11 +5,17 @@
     </div>
   
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-md rounded-md p-10 shadow-md bg-white">
-      <form class="space-y-6" action="#" method="POST">
+      <form #f="ngForm" (ngSubmit)="onSubmit(f)" class="space-y-6">
         <div>
           <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email address</label>
           <div class="mt-2">
-            <input id="email" name="email" type="email" autocomplete="email" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            <input id="email" name="email" ngModel type="email" autocomplete="email" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            <div *ngIf="f.value.email === '' && submit" class="text-red-700">
+              Enter an email
+            </div>
+            <div *ngIf="errorLoginExist() && errorIsEmail()" class="text-red-700">
+              {{ errorLogin.message }}
+            </div>
           </div>
         </div>
   
@@ -22,18 +28,27 @@
             </div>
           </div>
           <div class="mt-2">
-            <input id="password" name="password" type="password" autocomplete="current-password" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            <input id="password" name="password" ngModel type="password" autocomplete="current-password" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            <div *ngIf="f.value.password === '' && submit" class="text-red-700">
+              Enter a password
+            </div>
+            <div *ngIf="errorLoginExist() && errorIsPassword()" class="text-red-700">
+              {{ errorLogin.message }}
+            </div>
           </div>
         </div>
   
         <div>
           <button type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign in</button>
+          <!-- <div *ngIf="errorLoginExist() || errorIsPassword() || errorIsEmail()">
+            <p class="text-red-700">Login error and/or password.</p>
+          </div> -->
         </div>
+
+        <p class="mt-10 text-center text-sm text-gray-500">
+          <a routerLink="/signup">Not a member?</a>
+        </p>
+
       </form>
-  
-      <p class="mt-10 text-center text-sm text-gray-500">
-        Not a member?
-        <button (click)="signUp()" class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Sign up</button>
-      </p>
     </div>
 </div>
