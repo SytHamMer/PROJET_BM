@@ -25,29 +25,32 @@ export class InscriptionComponent{
       this.submit = true;
       this.errorConnexion = undefined;   
   
-      // Build a formData : Format to send in backend to process with multer in upload file to server
-      const formData = new FormData();
-      formData.append('username', f.value.username);
-      formData.append('email', f.value.email);
-      formData.append('password', f.value.password);
 
+      const formData = {"username":f.value.username, "email":f.value.email,"password":f.value.password}
+    
       if (f.value.username != ""  && 
           f.value.email != "" && 
           f.value.password != "" && 
           !this.errorConnexionExist()) {
 
         this.connexionService.signup(formData)
+        // this.router.navigateByUrl("/home");
             .subscribe(
               data => {
                 this.connexionService.getUserLoggedIn$()
                   .subscribe(user => {
+                    console.log("ICICICICICICICICICI");
+                    console.log(user);
                     this.router.navigateByUrl("/home");
                   })
             },
             error => {
+              console.log("error")
               console.error('Erreur lors du register :', error.error.message);
               this.errorConnexion = error.error;
             })
+            console.log("ICICICICICICICICICI")
+
       }
     }
 
@@ -56,7 +59,7 @@ export class InscriptionComponent{
   }
 
   errorIsPseudo() {
-    return this.errorConnexion.type === 'pseudo';
+    return this.errorConnexion.type === 'username';
   }
 
   errorIsEmail() {

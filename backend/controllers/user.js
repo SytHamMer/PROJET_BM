@@ -28,6 +28,9 @@ exports.deleteUser = (req, res, next) => {
 
 // SIGNUP
 exports.signup = (req, res, next) => {
+  // console.log(req);
+  // console.log(req.body);
+
     bcrypt.hash(req.body.password, 10)
       .then(hash => {
         const user = new User({
@@ -93,6 +96,9 @@ exports.getUserByID = (req, res, next) => {
 
 }
 
+//GET IDUSER BY USERNAME
+//NEED TO BE DONE
+
 // DELETE ALL USERS
 exports.deleteAllUsers = (req, res, next) => {
   User.deleteMany()
@@ -131,4 +137,7 @@ exports.updatePassword = (req, res, next) => {
         res.status(500).json({ error: "Server error" });
       });
   };
+
+
+
   

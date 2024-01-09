@@ -4,10 +4,10 @@ const jwt = require('jsonwebtoken');
 
 // CREATE SPENDING 
 exports.createSpending = async (req, res, next) => {
-    const { value, category,idUser } = req.body;
+    const { value, date, category,idUser } = req.body;
 
     try {
-        const newSpending = await Spending.create({ value, category,idUser });
+        const newSpending = await Spending.create({ value, date, category,idUser });
 
         // add the spending to the category
         await Category.findByIdAndUpdate(
