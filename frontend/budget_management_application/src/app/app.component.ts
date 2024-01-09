@@ -5,6 +5,7 @@ import { LoginComponent } from './login/login.component';
 import { InscriptionComponent } from './inscription/inscription.component';
 import { initFlowbite } from 'flowbite';
 
+
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -16,4 +17,6 @@ export class AppComponent {
   ngOnInit(): void {
     initFlowbite();
   }
+
+
 }
