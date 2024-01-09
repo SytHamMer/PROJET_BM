@@ -25,7 +25,7 @@ export class PieChartComponent {
   ) {}
 
   ngOnInit(): void {
-    this.connexionService.getUserLoggedIn$()
+    this.connexionService.getUserLoggedIn()
     .subscribe(user => {
       this.userConnected = user as User;
       this.userId = this.userConnected.id;
