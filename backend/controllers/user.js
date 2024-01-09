@@ -106,7 +106,8 @@ exports.deleteAllUsers = (req, res, next) => {
 exports.updatePassword = (req, res, next) => {
     const { id } = req.params; // Récupérez l'ID de l'utilisateur
     const { newPassword } = req.body; // Récupérez le nouveau mot de passe
-  
+    console.log("new password : ")
+    console.log(newPassword);
     // Hash du nouveau mot de passe
     bcrypt.hash(newPassword, 10)
       .then(hash => {
@@ -159,9 +160,11 @@ exports.updateEmail = (req, res, next) => {
 
 // UPDATE USERNAME
 exports.updateUsername = (req, res, next) => {
-  console.log(req.params)
+
   const { id } = req.params; // Récupérez l'ID de l'utilisateur
   const { newUsername} = req.body; 
+  console.log("new username : ")
+  console.log(newUsername);
 
     User.findOneAndUpdate(
       { _id: id }, // Filtrez par ID

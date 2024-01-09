@@ -4,6 +4,7 @@ import {FormsModule, NgForm} from "@angular/forms";
 import { User } from '../models/user.model';
 import { ConnexionService } from '../services/connexion.service';
 import { CommonModule } from '@angular/common';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-user',
@@ -14,16 +15,22 @@ import { CommonModule } from '@angular/common';
 })
 export class UserComponent implements OnInit {
   submit = false;
+  submitR = false;
   userConnected!: User;
   errorConnexion : any | undefined;
   isMenuPhoneHidden: boolean = true;
   username!:String;
   email!:String;
+  firstUsername!:String;
+  firstEmail!:String;
+  total: String | undefined;
 
 
 
   constructor(private router: Router,
-    protected connexionService: ConnexionService) {}
+    protected connexionService: ConnexionService,
+    protected userService: UserService) {}
+
 
 
 
@@ -35,47 +42,73 @@ export class UserComponent implements OnInit {
       // console.log(this.userConnected);
 
       console.log(this.userConnected);
+      this.firstUsername = this.userConnected.username
+      this.firstEmail= this.userConnected.email
+
       this.username=this.userConnected.username
       this.email=this.userConnected.email
 
       
     })
+    this.total  = "999€"
   }
 
 
 
-    onSubmit(f: NgForm) {
+    onSubmit(lf: NgForm) {
 
       this.submit = true;
       this.errorConnexion = undefined;   
-  
+      //modification username
+      if(lf.value.username != this.firstUsername){
+        console.log("username")
+        console.log(lf.value.username)
+        this.userService.updateUsername(this.userConnected.id,lf.value.username)
+        
+      }
+      //modification email
+      if(lf.value.email != this.firstEmail){
+        console.log("email")
+        console.log(lf.value.email)
 
-      const formData = {"username":f.value.username, "email":f.value.email,"password":f.value.password}
+        
+      }      
+      //modification password
+      if(lf.value.password != ""){
+        console.log("password")
+        console.log(lf.value.password)
+        // this.userService.updatePassword(this.userConnected.id, f.value.password)
+        // console.log("update fait ")
+        // console.log(this.userConnected.password);
+        
+        
+      }
+      // const formData = {"username":f.value.username, "email":f.value.email,"password":f.value.password}
     
-      if (f.value.username != ""  && 
-          f.value.email != "" && 
-          f.value.password != "" && 
-          !this.errorConnexionExist()) {
+      // if (f.value.username != ""  && 
+      //     f.value.email != "" && 
+      //     f.value.password != "" && 
+      //     !this.errorConnexionExist()) {
 
-        this.connexionService.signup(formData)
+        // this.connexionService.signup(formData)
 
         // this.router.navigateByUrl("/home");
-            .subscribe(
-              data => {
-                this.connexionService.getUserLoggedIn()
-                  .subscribe(user => {
-                    console.log("ICICICICICICICICICI");
-                    this.router.navigateByUrl("/home");
-                  })
-            },
-            error => {
-              console.log("error")
-              console.error('Erreur lors du register :', error.error.message);
-              this.errorConnexion = error.error;
-            })
-            console.log("ICICICICICICICICICI")
+            // .subscribe(
+            //   data => {
+            //     this.connexionService.getUserLoggedIn()
+            //       .subscribe(user => {
+            //         console.log("ICICICICICICICICICI");
+            //         this.router.navigateByUrl("/home");
+            //       })
+            // },
+            // error => {
+            //   console.log("error")
+            //   console.error('Erreur lors du register :', error.error.message);
+            //   this.errorConnexion = error.error;
+            // })
+            // console.log("ICICICICICICICICICI")
 
-      }
+      // }
     }
 
   errorConnexionExist() {
@@ -95,5 +128,17 @@ export class UserComponent implements OnInit {
   }
   toggleMobileMenu() {
     this.isMenuPhoneHidden = !this.isMenuPhoneHidden;
+  }
+
+
+
+
+  onSubmitR(rf: NgForm) {
+
+    this.submitR = true;
+    const data = this.userService.getTotal(this.userConnected.id);
+    console.log("DROITE");
+    console.log(data)
+    
   }
 }
