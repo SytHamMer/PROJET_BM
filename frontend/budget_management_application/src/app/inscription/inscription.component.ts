@@ -40,7 +40,6 @@ export class InscriptionComponent{
               data => {
                 this.connexionService.getUserLoggedIn()
                   .subscribe(user => {
-                    console.log("ICICICICICICICICICI");
                     this.router.navigateByUrl("/home");
                   })
             },

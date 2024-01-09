@@ -8,7 +8,7 @@ import { User } from '../models/user.model';
   providedIn: 'root'
 })
 export class ConnexionService {
-  private userLoggedIn$ = new Subject<User>(); //Un sujet (Subject) qui émet des événements lorsqu'un utilisateur est connecté
+  private userLoggedIn = new Subject<User>(); //Un sujet (Subject) qui émet des événements lorsqu'un utilisateur est connecté
   constructor(private http: HttpClient,
     protected userService: UserService) { };
 
@@ -22,10 +22,11 @@ export class ConnexionService {
             user.email,
             user.password,
           );
-
+          console.log(user);
           localStorage.removeItem("user_id");
           localStorage.setItem("user_id", user._id);
-          this.userLoggedIn$.next(userConnected);
+          this.userLoggedIn.next(userConnected);
+          console.log(userConnected);
 
           return userConnected;
         })
@@ -55,8 +56,6 @@ export class ConnexionService {
         map(data => {
           localStorage.removeItem("user_id");
           localStorage.setItem("user_id", data.user_id);
-          console.log(data)
-          console.log("priyt")
           
           return data;  
         })

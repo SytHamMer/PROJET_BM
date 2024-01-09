@@ -42,6 +42,7 @@ export class LoginComponent{
       this.connexionService.login(f.value.email, f.value.password)
         .subscribe
         (user => {
+          console.log(user)
           this.userConnected = user;
           this.router.navigateByUrl("/home");
         },
