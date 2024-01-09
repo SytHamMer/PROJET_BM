@@ -34,13 +34,13 @@ export class InscriptionComponent{
           !this.errorConnexionExist()) {
 
         this.connexionService.signup(formData)
+
         // this.router.navigateByUrl("/home");
             .subscribe(
               data => {
                 this.connexionService.getUserLoggedIn$()
                   .subscribe(user => {
                     console.log("ICICICICICICICICICI");
-                    console.log(user);
                     this.router.navigateByUrl("/home");
                   })
             },
