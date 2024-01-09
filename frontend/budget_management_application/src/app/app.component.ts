@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { InscriptionComponent } from './inscription/inscription.component';
+import { initFlowbite } from 'flowbite';
 
 @Component({
   selector: 'app-root',
@@ -12,4 +13,7 @@ import { InscriptionComponent } from './inscription/inscription.component';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
+  ngOnInit(): void {
+    initFlowbite();
+  }
 }
