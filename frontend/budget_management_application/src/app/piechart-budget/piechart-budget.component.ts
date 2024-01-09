@@ -1,7 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { PiechartBudgetService } from '../services/piechart-budget.service';
-declare const ApexCharts: any;
+import { ConnexionService } from '../services/connexion.service';
+import { UserService } from '../services/user.service';
+import ApexCharts from 'apexcharts';
+import { User } from '../models/user.model';
 
 @Component({
   standalone: true,
@@ -10,57 +13,56 @@ declare const ApexCharts: any;
   templateUrl: './piechart-budget.component.html',
   styleUrls: ['./piechart-budget.component.scss'],
 })
-export class PieChartComponent {
 
-  constructor(private pieChartService: PiechartBudgetService) { }
+export class PieChartComponent {
+  userId: number | undefined;
+  userConnected!: User;
+
+  constructor(
+    private pieChartService: PiechartBudgetService,
+    private connexionService: ConnexionService,
+    private userService: UserService
+  ) {}
 
   ngOnInit(): void {
-    this.updateChart();
+    this.connexionService.getUserLoggedIn$()
+    .subscribe(user => {
+      this.userConnected = user as User;
+      this.userId = this.userConnected.id;
+    })
   }
 
   updateChart(): void {
     const startDate = (document.getElementById('startDate') as HTMLInputElement).value;
     const endDate = (document.getElementById('endDate') as HTMLInputElement).value;
+    console.log(startDate, endDate,this.userId);
+    
+    if (this.userId && startDate && endDate) {
+      this.pieChartService.getSpendingBetweenDates(this.userId, startDate, endDate).subscribe(
+        (data) => {
+          // Mettre à jour les données du graphique avec les données reçues du service
+          const chartOptions = this.getChartOptions(data); // Utilisez les données reçues pour construire les nouvelles options du graphique
 
-    this.pieChartService.getSpendingBetweenDates(startDate, endDate).subscribe(
-      (data) => {
-        // Mettre à jour les données du graphique avec les données reçues du service
-        const chartOptions = this.getChartOptions(data); // Utilisez les données reçues pour construire les nouvelles options du graphique
-
-        const chart = new ApexCharts(document.querySelector('#donut-chart'), chartOptions);
-        chart.render();
-      },
-      (error) => {
-        console.error('Erreur lors de la récupération des données : ', error);
-      }
-    );
+          const chart = new ApexCharts(document.querySelector('#donut-chart'), chartOptions);
+          chart.render();
+        },
+        (error) => {
+          console.error('Erreur lors de la récupération des données : ', error);
+        }
+      );
+    } else {
+      console.warn('Veuillez sélectionner les dates et vérifier l\'ID utilisateur.');
+    }
   }
-
   getChartOptions(data: any): any {
-    // Ici, data contient les données reçues du backend
-    // Utilisez ces données pour définir les options du graphique
-  
-    const series = data.series; // Séries de données reçues du backend
-    const labels = data.labels; // Libellés des sections du pie-chart
-  
-    const chartOptions = {
-      series: series,
-      colors: ["#1C64F2", "#16BDCA", "#FDBA8C", "#E74694"], // Couleurs du pie-chart
+    return {
+      series: data.series,
+      colors: data.colors,
       chart: {
         height: 320,
-        width: "100%",
-        type: "donut",
+        width: '100%',
+        type: 'donut',
       },
-      // ... Autres options du graphique
-  
-      // Par exemple, pour les libellés des sections du pie-chart
-      labels: labels,
-  
-      // D'autres configurations selon vos besoins avec les données reçues
-      // ...
     };
-  
-    return chartOptions;
   }
-  
 }
