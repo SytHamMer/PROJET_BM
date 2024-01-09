@@ -133,6 +133,50 @@ exports.updatePassword = (req, res, next) => {
       });
   };
 
+// UPDATE EMAIL
+exports.updateEmail = (req, res, next) => {
+  console.log(req.params)
+  const { id } = req.params; // Récupérez l'ID de l'utilisateur
+  const { newEmail } = req.body; 
+
+    User.findOneAndUpdate(
+      { _id: id }, // Filtrez par ID
+      { email: newEmail }, 
+      { new: true } // Option pour renvoyer l'objet mis à jour
+    )
+      .then(updatedUser => {
+        if (!updatedUser) {
+          return res.status(404).json({ message: "User not found" });
+        }
+        res.status(200).json({ message: "Email updated", user: updatedUser });
+      })
+      .catch(error => {
+        console.error(error);
+        res.status(500).json({ error: "Server error" });
+      });
+};
 
 
+// UPDATE USERNAME
+exports.updateUsername = (req, res, next) => {
+  console.log(req.params)
+  const { id } = req.params; // Récupérez l'ID de l'utilisateur
+  const { newUsername} = req.body; 
+
+    User.findOneAndUpdate(
+      { _id: id }, // Filtrez par ID
+      { username: newUsername }, 
+      { new: true } // Option pour renvoyer l'objet mis à jour
+    )
+      .then(updatedUser => {
+        if (!updatedUser) {
+          return res.status(404).json({ message: "User not found" });
+        }
+        res.status(200).json({ message: "Username updated", user: updatedUser });
+      })
+      .catch(error => {
+        console.error(error);
+        res.status(500).json({ error: "Server error" });
+      });
+};
   
