@@ -48,11 +48,14 @@ export class ConnexionService {
   }
   
   signup(formData: any): Observable<any> {
+    //console.log("dans connexion service");
+   // console.log(formData);
     return this.userService.signup(formData)
       .pipe(
         map(data => {
           localStorage.removeItem("user_id");
           localStorage.setItem("user_id", data.user_id);
+          console.log(data)
           return data;  
         })
       );
