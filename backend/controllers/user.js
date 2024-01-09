@@ -28,8 +28,6 @@ exports.deleteUser = (req, res, next) => {
 
 // SIGNUP
 exports.signup = (req, res, next) => {
-  // console.log(req);
-  // console.log(req.body);
 
     bcrypt.hash(req.body.password, 10)
       .then(hash => {
@@ -39,7 +37,7 @@ exports.signup = (req, res, next) => {
             password: hash
         });
         user.save()
-          .then(() => res.status(201).json({ message: 'User signup!' }))
+          .then(() => res.status(201).json({ message: 'User signup!' , user_id: user._id }))
           .catch(error => res.status(400).json({ error }));
       })
       .catch(error => res.status(500).json({ error }));
@@ -95,9 +93,6 @@ exports.getUserByID = (req, res, next) => {
   .catch(error => res.status(400).json({ error }));
 
 }
-
-//GET IDUSER BY USERNAME
-//NEED TO BE DONE
 
 // DELETE ALL USERS
 exports.deleteAllUsers = (req, res, next) => {

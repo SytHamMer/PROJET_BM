@@ -34,6 +34,7 @@ export class ConnexionService {
 
   getUserLoggedIn$(): Observable<User | undefined> {
     let user_id = localStorage.getItem("user_id");
+    console.log(user_id);
 
     if (user_id !== null) {
       // Retourne l'observable directement du service UserService
@@ -48,14 +49,15 @@ export class ConnexionService {
   }
   
   signup(formData: any): Observable<any> {
-    //console.log("dans connexion service");
-   // console.log(formData);
+
     return this.userService.signup(formData)
       .pipe(
         map(data => {
           localStorage.removeItem("user_id");
           localStorage.setItem("user_id", data.user_id);
           console.log(data)
+          console.log("priyt")
+          
           return data;  
         })
       );
