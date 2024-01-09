@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router, RouterLink} from "@angular/router";
 import {FormsModule, NgForm} from "@angular/forms";
 import { User } from '../models/user.model';
@@ -6,19 +6,43 @@ import { ConnexionService } from '../services/connexion.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-inscription',
+  selector: 'app-user',
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink],
-  templateUrl: './inscription.component.html',
-  styleUrl: './inscription.component.scss'
+  templateUrl: './user.component.html',
+  styleUrl: './user.component.scss'
 })
-export class InscriptionComponent{
+export class UserComponent implements OnInit {
   submit = false;
   userConnected!: User;
   errorConnexion : any | undefined;
+  isMenuPhoneHidden: boolean = true;
+  username!:String;
+  email!:String;
+
+
 
   constructor(private router: Router,
     protected connexionService: ConnexionService) {}
+
+
+
+
+  ngOnInit(): void {
+    this.connexionService.getUserLoggedIn()
+    .subscribe(user => {
+      this.userConnected = user as User;
+      // console.log(this.userConnected);
+
+      console.log(this.userConnected);
+      this.username=this.userConnected.username
+      this.email=this.userConnected.email
+
+      
+    })
+  }
+
+
 
     onSubmit(f: NgForm) {
 
@@ -68,5 +92,8 @@ export class InscriptionComponent{
 
   errorIsPassword() {
     return this.errorConnexion.type === 'password';
+  }
+  toggleMobileMenu() {
+    this.isMenuPhoneHidden = !this.isMenuPhoneHidden;
   }
 }

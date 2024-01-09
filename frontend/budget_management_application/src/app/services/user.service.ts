@@ -29,6 +29,9 @@ export class UserService {
 
   signup(formData: any) {
     const url = `http://localhost:3000/api/user/signup`
+    // console.log("dans user service:")
+    // console.log(formData)
+    //console.log(this.http.post<any>(url, formData))
 
     return this.http.post<any>(url, formData)
       .pipe(

@@ -28,6 +28,7 @@ exports.deleteUser = (req, res, next) => {
 
 // SIGNUP
 exports.signup = (req, res, next) => {
+
     bcrypt.hash(req.body.password, 10)
       .then(hash => {
         const user = new User({
@@ -36,7 +37,7 @@ exports.signup = (req, res, next) => {
             password: hash
         });
         user.save()
-          .then(() => res.status(201).json({ message: 'User signup!' }))
+          .then(() => res.status(201).json({ message: 'User signup!' , user_id: user._id }))
           .catch(error => res.status(400).json({ error }));
       })
       .catch(error => res.status(500).json({ error }));
@@ -131,4 +132,7 @@ exports.updatePassword = (req, res, next) => {
         res.status(500).json({ error: "Server error" });
       });
   };
+
+
+
   

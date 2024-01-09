@@ -4,10 +4,10 @@ const jwt = require('jsonwebtoken');
 
 //create income 
 exports.createIncome = async (req, res, next) => {
-    const { value, category,idUser } = req.body;
+    const { value,date, category,idUser } = req.body;
 
     try {
-        const newIncome = await Income.create({ value, category,idUser });
+        const newIncome = await Income.create({ value, date, category,idUser });
 
         // add the spending to the category
         await CategoryIncomes.findByIdAndUpdate(
