@@ -30,6 +30,8 @@ New libraries can be ask to install
 
 In /frontend/budget_management_application
 ```bash
+    ng add @angular/material
+    "select first one everytime"
     ng serve
 ```
 

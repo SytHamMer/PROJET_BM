@@ -29,7 +29,14 @@ export class AjoutCategorieComponent{
               protected connexionService: ConnexionService) {}
 
   ngOnInit() {
-    this.isLoading = false;        
+    this.isLoading = false;    
+    this.connexionService.getUserLoggedIn()
+    .subscribe(user => {
+      this.userConnected = user as User;
+      console.log("dans user component")
+      console.log(this.userConnected);
+
+    })    
   }
 
 
@@ -38,21 +45,11 @@ export class AjoutCategorieComponent{
     this.errorLogin = undefined;    
     this.submit = true;
     this.isLoading = true;
+
+    if(f.value.)
+
     
 
-    if (f.value.email != ""  && f.value.password != "" && !this.errorLoginExist()){
-      this.connexionService.login(f.value.email, f.value.password)
-        .subscribe
-        (user => {
-          this.userConnected = user;
-          this.router.navigateByUrl("/home");
-        },
-        error => {
-          console.error('Erreur lors de la connexion :', error.error.message);
-          this.errorLogin = error.error;
-        })
-      
-    }
 
   }
 
