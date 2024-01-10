@@ -1,30 +1,25 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { PieChartComponent } from '../piechart-budget/piechart-budget.component';
-import { AjoutDepenseComponent } from '../ajout-depense/ajout-depense.component';
-import { MatDialog } from '@angular/material/dialog';
-import { AjoutRevenuComponent } from '../ajout-revenu/ajout-revenu.component';
 import { Router, RouterLink} from "@angular/router";
 import { ConnexionService } from '../services/connexion.service';
 import { UserService } from '../services/user.service';
 import { User } from '../models/user.model';
-import { MenuComponent } from "../menu/menu.component";
 
 @Component({
-    selector: 'app-homepage',
-    standalone: true,
-    templateUrl: './homepage.component.html',
-    styleUrl: './homepage.component.scss',
-    imports: [CommonModule, PieChartComponent, MenuComponent]
+  selector: 'app-menu',
+  standalone: true,
+  imports: [CommonModule,PieChartComponent],
+  templateUrl: './menu.component.html',
+  styleUrl: './menu.component.scss'
 })
-export class HomepageComponent {
+export class MenuComponent {
   isMenuPhoneHidden: boolean = true;
   userConnected!: User;
   errorConnexion : any | undefined;
   username!:String;
 
-  constructor(public dialog: MatDialog,
-    private router: Router,
+  constructor(private router: Router,
     protected connexionService: ConnexionService,
     protected userService: UserService) {}
 
@@ -40,18 +35,5 @@ export class HomepageComponent {
   toggleMobileMenu() {
     this.isMenuPhoneHidden = !this.isMenuPhoneHidden;
   }
-
-  openNewSpending(): void {
-    this.dialog.open(AjoutDepenseComponent, {
-      width: '400px',
-      height: '600px'
-    });
-  }
-
-  openNewIncome(): void {
-    this.dialog.open(AjoutRevenuComponent, {
-      width: '400px',
-      height: '600px'
-    });
-  }
 }
+
