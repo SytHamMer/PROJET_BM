@@ -2,8 +2,10 @@
   "dependencies": {
     "apexcharts": "^3.45.1",
     "bcrypt": "^5.1.1",
+    "dialog": "^0.3.1",
     "flowbite": "^2.2.1",
     "jsonwebtoken": "^9.0.2",
+    "material": "^0.7.9",
     "moment": "^2.29.4"
   }
 }
