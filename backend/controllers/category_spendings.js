@@ -85,7 +85,6 @@ exports.getTotalSpendingsBetweenDates = (req, res, next) => {
   const formattedEndDate = moment(endDate, 'YYYY-MM').endOf('month');
   
   console.log(formattedStartDate, formattedEndDate)
-
   CategorySpendings.findById(id)
     .populate({
       path: 'spendings',
