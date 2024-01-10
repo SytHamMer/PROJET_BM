@@ -24,7 +24,7 @@ export class UserComponent implements OnInit {
   email!:String;
   firstUsername!:String;
   firstEmail!:String;
-  total: String | undefined;
+  total: Number | undefined;
 
 
 
@@ -50,7 +50,7 @@ export class UserComponent implements OnInit {
 
       
     })
-    this.total  = "999€"
+    this.total  = 999
   }
 
 
