@@ -1,11 +1,11 @@
 export class CategorieIncomes {
-    id!: number;
-    id_user!: number;
+    id!: string;
+    id_user!: string;
     name!: string;
   
     constructor(
-      id: number,
-      id_user: number,
+      id: string,
+      id_user: string,
       name: string,
     ) {
       this.id = id;

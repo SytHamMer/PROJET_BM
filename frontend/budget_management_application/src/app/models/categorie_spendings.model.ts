@@ -1,12 +1,12 @@
 export class CategorieSpendings {
-    id!: number;
-    id_user!: number;
+    id!: string;
+    id_user!: string;
     name!: string;
     budget!: number;
   
     constructor(
-      id: number,
-      id_user: number,
+      id: string,
+      id_user: string,
       name: string,
       budget: number,
     ) {
