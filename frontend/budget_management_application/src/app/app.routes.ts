@@ -15,7 +15,6 @@ export const routes: Routes = [
     { path: 'home', component: HomepageComponent},
     {path:'user',component: UserComponent},
     { path: 'spending', component: SpendingPageComponent},
-    { path: 'activity', component: ActivityPageComponent},
-    { path: 'categorie', component: AjoutCategorieComponent}
+    { path: 'activity', component: ActivityPageComponent}
 
 ];
