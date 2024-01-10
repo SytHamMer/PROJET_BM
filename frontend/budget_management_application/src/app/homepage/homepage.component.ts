@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { PieChartComponent } from '../piechart-budget/piechart-budget.component';
 import { BudgetPrevReelComponent } from '../budget-prev-reel/budget-prev-reel.component';
+import { BudgetPrevReelComponent } from '../budget-prev-reel/budget-prev-reel.component';
 import { AjoutDepenseComponent } from '../ajout-depense/ajout-depense.component';
 import { MatDialog } from '@angular/material/dialog';
 import { AjoutRevenuComponent } from '../ajout-revenu/ajout-revenu.component';
