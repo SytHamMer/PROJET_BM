@@ -23,6 +23,7 @@ export class AjoutCategorieComponent{
   isLoading !: boolean;
   userConnected!: User;
   errorLogin !: any | undefined;
+selectedOption: any;
 
   constructor(public dialogRef : MatDialogRef<AjoutCategorieComponent>,
               private router: Router,
@@ -45,8 +46,18 @@ export class AjoutCategorieComponent{
     this.errorLogin = undefined;    
     this.submit = true;
     this.isLoading = true;
+    const selectedValue = f.value.categoryType
+    console.log(selectedValue); 
+    //a = dépense
+    if (selectedValue == 'a'){
 
-    if(f.value.)
+    //b = revenu
+    }
+    if (selectedValue == 'b'){
+
+    }
+    console.log(f.value.nom)
+    console.log(f.value.montant)
 
     
 
