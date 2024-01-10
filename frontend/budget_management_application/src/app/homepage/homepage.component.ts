@@ -44,6 +44,7 @@ export class HomepageComponent {
 
   openNewSpending(): void {
     this.dialog.open(AjoutDepenseComponent, {
+      panelClass: 'dialog-container',
       width: '400px',
       height: '600px'
     });
@@ -51,6 +52,7 @@ export class HomepageComponent {
 
   openNewIncome(): void {
     this.dialog.open(AjoutRevenuComponent, {
+      panelClass: 'dialog-container',
       width: '400px',
       height: '600px'
     });

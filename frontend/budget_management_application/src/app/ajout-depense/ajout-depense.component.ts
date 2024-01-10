@@ -69,6 +69,7 @@ export class AjoutDepenseComponent{
 
   openNewCategory(): void {
     this.dialog.open(AjoutCategorieComponent, {
+      panelClass: 'dialog-container',
       width: '400px',
       height: '600px'
     });
