@@ -2,17 +2,17 @@ import { CategorieIncomes } from "./categorie_incomes.model";
 import { CategorieSpendings } from "./categorie_spendings.model";
 
 export class Spendings {
-    id!: number;
+    id!: string;
     categorie!: CategorieSpendings;
-    id_user!: number;
+    id_user!: string;
     name!: string;
     amount!: number;
     date?: Date;
   
     constructor(
-        id: number,
+        id: string,
         categorie: CategorieSpendings,
-        id_user: number,
+        id_user: string,
         name: string,
         amount: number,
         date: Date

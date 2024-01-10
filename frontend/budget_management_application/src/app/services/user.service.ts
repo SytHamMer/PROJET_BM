@@ -9,7 +9,7 @@ import { User } from '../models/user.model';
 export class UserService {
   constructor(private http: HttpClient) {}
 
-  updatePassword(id: Number,newPassword: string): Observable<any>  {
+  updatePassword(id: string,newPassword: string): Observable<any>  {
     let url =  `http://localhost:3000/api/user/updatePassword/${id}`;
     console.log("dans user service:");
     console.log(url);
@@ -34,7 +34,7 @@ export class UserService {
 
 
 
-  updateEmail(id: Number,newEmail: string): Observable<any> {
+  updateEmail(id: string,newEmail: string): Observable<any> {
     let url =  `http://localhost:3000/api/user/updateEmail/${id}`;
     console.log("dans user service:");
     console.log(url);
