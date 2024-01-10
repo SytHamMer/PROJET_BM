@@ -4,6 +4,11 @@ import {FormsModule, NgForm} from "@angular/forms";
 import { User } from '../models/user.model';
 import { ConnexionService } from '../services/connexion.service';
 import { CommonModule } from '@angular/common';
+import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
+import { UserService } from '../services/user.service';
+import { AjoutCategorieComponent } from '../ajout-categorie/ajout-categorie.component';
+
 
 @Component({
   selector: 'app-ajout-depense',
@@ -23,11 +28,19 @@ export class AjoutDepenseComponent{
   userConnected!: User;
   errorLogin !: any | undefined;
 
-  constructor(private router: Router,
-              protected connexionService: ConnexionService) {}
+  constructor(public dialogRef : MatDialogRef<AjoutDepenseComponent>,
+              public dialog: MatDialog,
+              private router: Router,
+              protected connexionService: ConnexionService,
+              protected userService: UserService) {}
 
   ngOnInit() {
-    this.isLoading = false;        
+    this.connexionService.getUserLoggedIn()
+    .subscribe(user => {
+      this.userConnected = user as User;
+      console.log(user)      
+    })        
+    
   }
 
 
@@ -54,6 +67,13 @@ export class AjoutDepenseComponent{
 
   }
 
+  openNewCategory(): void {
+    this.dialog.open(AjoutCategorieComponent, {
+      width: '400px',
+      height: '600px'
+    });
+  }
+
   userConnectedIsLoaded() {
     return this.userConnected !== undefined;
   }
@@ -70,4 +90,7 @@ export class AjoutDepenseComponent{
     return this.errorLogin.type === 'password';
   }
 
+  close(): void {
+    this.dialogRef.close();
+  }
 }

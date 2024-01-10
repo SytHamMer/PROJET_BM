@@ -8,12 +8,17 @@
         <label for="categorie" class="block text-sm font-medium leading-6 text-gray-900">Catégorie</label>
         <div class="flex">
           <select id="categories" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">            <option selected>Sélectionner une catégorie</option>
+            <!-- <ul>
+              <li *ngFor="let element of elements">
+                {{ element.name }} 
+              </li>
+            </ul> -->
             <option value="US">United States</option>
             <option value="CA">Canada</option>
             <option value="FR">France</option>
             <option value="DE">Germany</option>
           </select>
-          <button class="flex items-center justify-center text-white ml-3 py-2 px-4 rounded-full font-medium bg-gray-600 bg-opacity-50">+</button>
+          <button (click)="openNewCategory()" class="flex items-center justify-center text-white ml-3 py-2 px-4 rounded-full font-medium bg-gray-600 bg-opacity-50">+</button>
         </div>
         <div *ngIf="errorLoginExist() && errorIsEmail()" class="text-red-700">
           {{ errorLogin.message }}
@@ -62,7 +67,7 @@
         <div *ngIf="errorLoginExist() || errorIsPassword() || errorIsEmail()">
           <p class="text-red-700">Login error and/or password.</p>
         </div>
-        <button type="submit" class="w-1/2 ml-4 rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Abandonner</button>
+        <button type="button" (click)="close()" class="w-1/2 ml-4 rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Abandonner</button>
         <div *ngIf="errorLoginExist() || errorIsPassword() || errorIsEmail()">
           <p class="text-red-700">Login error and/or password.</p>
         </div>
