@@ -71,20 +71,16 @@ export class AjoutRevenuComponent{
     this.errorLogin = undefined;    
     this.submit = true;
     this.isLoading = true;
-    
+    const category = (document.getElementById('categories') as HTMLInputElement).value;
+    const date = (document.getElementById('date') as HTMLInputElement).value;
+    console.log("dans le submit")
+    console.log(category)
+    if (f.value.description != "" && f.value.montant != "" && category !="undefined"){
+      console.log(f.value.description)
+      console.log(f.value.montant)
+      console.log(date)
+      console.log("TU PEUX CREER")
 
-    if (f.value.email != ""  && f.value.password != "" && !this.errorLoginExist()){
-      this.connexionService.login(f.value.email, f.value.password)
-        .subscribe
-        (user => {
-          this.userConnected = user;
-          this.router.navigateByUrl("/home");
-        },
-        error => {
-          console.error('Erreur lors de la connexion :', error.error.message);
-          this.errorLogin = error.error;
-        })
-      
     }
 
   }

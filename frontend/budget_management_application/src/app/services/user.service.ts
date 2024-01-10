@@ -242,4 +242,10 @@ export class UserService {
       })
     )); 
   }
+
+  createIncome(value : Number,date : Date ,id_category: string,id_user: string  ) : Observable<any> {
+    const url = `http://localhost:3000/api/income/create/`;
+    const data = {"value":value,"date":date,"category":id_category,"idUser": id_user}
+    return this.http.post<any>(url,data)
+  }
 }
