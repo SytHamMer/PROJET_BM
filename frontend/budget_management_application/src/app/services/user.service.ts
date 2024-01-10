@@ -2,6 +2,10 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, map, throwError } from 'rxjs';
 import { User } from '../models/user.model';
+import { CategorieIncomes } from '../models/categorie_incomes.model';
+import { CategorieSpendings } from '../models/categorie_spendings.model';
+
+
 
 @Injectable({
   providedIn: "root",
@@ -208,5 +212,34 @@ export class UserService {
       )
 
 
+  }
+
+
+  getListAllCategoriesIncomes(id_user: string) : Observable<any>  {
+    const url = `http://localhost:3000/api/category_incomes/byIdUser/${id_user}`;
+    console.log(id_user)
+    return this.http.get<any[]>(url).pipe((
+      map((data:any)=> {
+        console.log("OUI")
+        return data.categories.map((category: any) => {
+          console.log(category)
+          return new CategorieIncomes(category._id, category.idUser,category.name)
+        })
+      })
+    )); 
+  }
+
+  getListAllCategoriesSpendings(id_user: string) : Observable<any>  {
+    const url = `http://localhost:3000/api/category_spendings/byIdUser/${id_user}`;
+    console.log(id_user)
+    return this.http.get<any[]>(url).pipe((
+      map((data:any)=> {
+        console.log("OUI")
+        return data.categories.map((category: any) => {
+          console.log(category)
+          return new CategorieSpendings(category._id, category.idUser,category.name,category.monthly_limit)
+        })
+      })
+    )); 
   }
 }

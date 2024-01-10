@@ -8,6 +8,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { MatDialog } from '@angular/material/dialog';
 import { UserService } from '../services/user.service';
 import { AjoutCategorieComponent } from '../ajout-categorie/ajout-categorie.component';
+import { CategorieIncomes } from '../models/categorie_incomes.model';
 
 
 @Component({
@@ -27,6 +28,7 @@ export class AjoutRevenuComponent{
   isLoading !: boolean;
   userConnected!: User;
   errorLogin !: any | undefined;
+  list_categories_incomes: Array<CategorieIncomes> | undefined;
 
   constructor(public dialogRef : MatDialogRef<AjoutRevenuComponent>,
               public dialog: MatDialog,
@@ -38,9 +40,29 @@ export class AjoutRevenuComponent{
     this.connexionService.getUserLoggedIn()
     .subscribe(user => {
       this.userConnected = user as User;
-      console.log(user)      
-    })        
-    
+      // console.log("dans ajout revenu")
+      // console.log(this.userConnected.id);
+
+           
+    // console.log("POURQUOI")
+    // console.log(this.userConnected.id)
+    this.userService.getListAllCategoriesIncomes(this.userConnected.id).subscribe(
+      (data) => {
+        this.list_categories_incomes = data;
+        console.log(this.list_categories_incomes);
+        console.log("prout")
+        console.log(data)
+        if (this.list_categories_incomes != undefined){
+          this.list_categories_incomes.forEach((category: any) =>{
+            console.log(category.id)
+          })
+        }
+
+      },
+      (error) => {
+        console.error(error); 
+      })
+    }) 
   }
 
 

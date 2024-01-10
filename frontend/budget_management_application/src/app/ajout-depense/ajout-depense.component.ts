@@ -27,6 +27,7 @@ export class AjoutDepenseComponent{
   isLoading !: boolean;
   userConnected!: User;
   errorLogin !: any | undefined;
+  list_categories_spendings: any[] = [];
 
   constructor(public dialogRef : MatDialogRef<AjoutDepenseComponent>,
               public dialog: MatDialog,
@@ -34,14 +35,35 @@ export class AjoutDepenseComponent{
               protected connexionService: ConnexionService,
               protected userService: UserService) {}
 
-  ngOnInit() {
-    this.connexionService.getUserLoggedIn()
-    .subscribe(user => {
-      this.userConnected = user as User;
-      console.log(user)      
-    })        
-    
-  }
+              ngOnInit() {
+                this.connexionService.getUserLoggedIn()
+                .subscribe(user => {
+                  this.userConnected = user as User;
+                  // console.log("dans ajout revenu")
+                  // console.log(this.userConnected.id);
+            
+                       
+                // console.log("POURQUOI")
+                // console.log(this.userConnected.id)
+                this.userService.getListAllCategoriesSpendings(this.userConnected.id).subscribe(
+                  (data) => {
+                    this.list_categories_spendings = data;
+                    console.log(this.list_categories_spendings);
+                    console.log("prout")
+                    console.log(data)
+                    if (this.list_categories_spendings != undefined){
+                      this.list_categories_spendings.forEach((category: any) =>{
+                        console.log(category.id)
+                      })
+                    }
+            
+                  },
+                  (error) => {
+                    console.error(error); 
+                  })
+                }) 
+              }
+            
 
 
   onSubmit(f: NgForm) {

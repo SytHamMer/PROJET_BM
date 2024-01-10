@@ -36,8 +36,8 @@ selectedOption: any;
     this.connexionService.getUserLoggedIn()
     .subscribe(user => {
       this.userConnected = user as User;
-      console.log("dans user component")
-      console.log(this.userConnected);
+      // console.log("dans  ajout categorie")
+      // console.log(this.userConnected);
 
     })    
   }
@@ -49,7 +49,7 @@ selectedOption: any;
     this.submit = true;
     this.isLoading = true;
     const selectedValue = f.value.categoryType
-    console.log(selectedValue); 
+    // console.log(selectedValue); 
     //a = dépense
     if (selectedValue == 'a' && f.value.nom != '' && f.value.montant != ""){
       this.userService.createCategorySpending(this.userConnected.id,f.value.montant,f.value.nom).subscribe()
@@ -65,8 +65,8 @@ selectedOption: any;
 
 
     }
-    console.log(f.value.nom)
-    console.log(f.value.montant)
+    // console.log(f.value.nom)
+    // console.log(f.value.montant)
 
     
 
