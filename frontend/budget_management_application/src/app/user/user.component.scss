@@ -28,3 +28,11 @@
   .right-div {
     width: 50%;
   }
+
+#userlogo {
+    filter: brightness(0) invert(1) grayscale(1);
+  }
+
+#userButton:hover img{
+    filter: none;
+  }

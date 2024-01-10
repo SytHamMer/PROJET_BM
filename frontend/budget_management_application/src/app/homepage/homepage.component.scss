@@ -18,3 +18,11 @@
 .titles-color {
     color: #523482
 }
+
+#userlogo {
+    filter: brightness(0) invert(1) grayscale(1);
+  }
+
+#userButton:hover img{
+    filter: none;
+  }
