@@ -158,15 +158,39 @@ export class UserService {
 
   }
 
-  getListCategories(id : string, type : string){
+  getListCategories(id : number, type : string){
     let urlcategories = `http://localhost:3000/api/category_${type}/ByIdUser/${id}`;
     return this.http.get<any[]>(urlcategories);
   }
 
-  createCategorySpending(id_user : string, type: string, limit : number, name : string){
-    let url = `http://localhost:3000/api/category_${type}/create`;
+  createCategorySpending(id_user : string, limit : number, name : string){
+    let url = `http://localhost:3000/api/category_spendings/create`;
 
     const data = {'name':name,'monthly_limit':limit,'idUser':id_user}
+    return this.http.post<any>(url, data)
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          if (error.status === 400) {
+            // Cas où l'authentification a échoué
+            console.error('Register échouée :', error);
+          } else {
+            // Autres erreurs HTTP
+            console.error('Erreur lors du register :', error);
+          }
+
+          // Propager l'erreur pour permettre à d'autres parties de l'application de la gérer si nécessaire
+          return throwError(error);
+        })
+      )
+
+
+  }
+
+
+  createCategoryIncome(id_user : string, name : string){
+    let url = `http://localhost:3000/api/category_incomes/create`;
+
+    const data = {'name':name,'idUser':id_user}
     return this.http.post<any>(url, data)
       .pipe(
         catchError((error: HttpErrorResponse) => {
