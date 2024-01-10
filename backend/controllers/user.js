@@ -1,4 +1,9 @@
 const User = require('../models/user');
+const CategorySpendings = require('../models/category_spendings');
+const CategoryIncomes = require('../models/category_incomes');
+const categorySpendingsCtrl = require('../controllers/category_spendings');
+
+
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
@@ -184,3 +189,29 @@ exports.updateUsername = (req, res, next) => {
       });
 };
   
+
+
+exports.getTotalSpendingsForUser = async (req, res, next) => {
+  try {
+    console.log(req.params)
+    const { id } = req.params;
+    console.log(id)
+    const { startDate, endDate } = req.body;
+
+    // Suppose you want to get total spendings for a specific user within dates
+    // You would first retrieve categories for the user
+    const categories = await categorySpendingsCtrl.getByIDUser(id);
+
+    // Then, you might want to calculate total spendings across all categories
+    let totalSpendings = 0;
+    for (const category of categories) {
+      const result = await categorySpendingsCtrl.getTotalSpendingsBetweenDates(category._id, startDate, endDate);
+      console.log(result.total_spending_between_dates)
+      totalSpendings += result.total_spending_between_dates;
+    }
+
+    res.status(200).json({ totalSpendings });
+  } catch (error) {
+    res.status(500).json({ error: error.message || 'Server error' });
+  }
+};

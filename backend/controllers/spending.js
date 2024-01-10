@@ -1,6 +1,8 @@
 const Spending = require('../models/spending');
 const Category = require('../models/category_spendings'); // Import category
 const jwt = require('jsonwebtoken');
+const moment = require('moment');
+
 
 // CREATE SPENDING 
 exports.createSpending = async (req, res, next) => {
@@ -78,3 +80,29 @@ exports.deleteAllSpendings = (req, res, next) => {
       .then(() => res.status(200).json({ message: 'All spendings deleted!' }))
       .catch(error => res.status(400).json({ error }));
   };
+
+// GET ALL SPENDING LAST SIX MONTH
+
+exports.getSpendingstwoDates = (req, res, next) => {
+    const { id } = req.params;
+    let amount = 0;
+    console.log(req.params)
+    const { startDate, endDate } = req.body; 
+    const formattedStartDate = moment(startDate, 'YYYY-MM').startOf('month');
+    const formattedEndDate = moment(endDate, 'YYYY-MM').endOf('month');
+    console.log(formattedStartDate, formattedEndDate)
+    console.log(id)
+    Spending.find({
+        idUser: id ,
+        date: {
+                $gte: formattedStartDate,
+                $lte: formattedEndDate
+                    }    })
+    .then(spendings => {spendings.forEach((spending)=>{
+        amount += spending.value
+        console.log(spending.value)
+    })
+    res.status(200).json(amount)}
+        )
+    .catch(error => res.status(400).json({ error }));
+};
