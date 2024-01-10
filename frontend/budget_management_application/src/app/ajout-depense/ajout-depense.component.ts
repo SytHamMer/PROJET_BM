@@ -4,6 +4,9 @@ import {FormsModule, NgForm} from "@angular/forms";
 import { User } from '../models/user.model';
 import { ConnexionService } from '../services/connexion.service';
 import { CommonModule } from '@angular/common';
+import { MatDialogRef } from '@angular/material/dialog';
+import { UserService } from '../services/user.service';
+
 
 @Component({
   selector: 'app-ajout-depense',
@@ -23,11 +26,18 @@ export class AjoutDepenseComponent{
   userConnected!: User;
   errorLogin !: any | undefined;
 
-  constructor(private router: Router,
-              protected connexionService: ConnexionService) {}
+  constructor(public dialogRef : MatDialogRef<AjoutDepenseComponent>,
+              private router: Router,
+              protected connexionService: ConnexionService,
+              protected userService: UserService) {}
 
   ngOnInit() {
-    this.isLoading = false;        
+    this.connexionService.getUserLoggedIn()
+    .subscribe(user => {
+      this.userConnected = user as User;
+      console.log(user)      
+    })        
+    
   }
 
 

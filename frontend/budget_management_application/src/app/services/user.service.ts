@@ -160,10 +160,9 @@ export class UserService {
 
   }
 
-
-
-
-
-
+  getListCategories(id : number, type : string){
+    let urlcategories = `http://localhost:3000/api/category_${type}/ByIdUser/${id}`;
+    return this.http.get<any[]>(urlcategories);
+  }
 
 }
