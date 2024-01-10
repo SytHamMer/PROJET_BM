@@ -2,7 +2,7 @@ const User = require('../models/user');
 const CategorySpendings = require('../models/category_spendings');
 const CategoryIncomes = require('../models/category_incomes');
 const categorySpendingsCtrl = require('../controllers/category_spendings');
-
+const categoryIncomesCtrl = require('../controllers/category_incomes');
 
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
@@ -198,16 +198,63 @@ exports.getTotalSpendingsForUser = async (req, res, next) => {
     console.log(id)
     const { startDate, endDate } = req.body;
 
-    // Suppose you want to get total spendings for a specific user within dates
-    // You would first retrieve categories for the user
+    //retrieve categories for the user
     const categories = await categorySpendingsCtrl.getByIDUser(id);
 
-    // Then, you might want to calculate total spendings across all categories
+    //calculate total spendings across all categories
     let totalSpendings = 0;
     for (const category of categories) {
       const result = await categorySpendingsCtrl.getTotalSpendingsBetweenDates(category._id, startDate, endDate);
       console.log(result.total_spending_between_dates)
       totalSpendings += result.total_spending_between_dates;
+    }
+
+    res.status(200).json({ totalSpendings });
+  } catch (error) {
+    res.status(500).json({ error: error.message || 'Server error' });
+  }
+};
+
+exports.getTotalIncomesForUser = async (req, res, next) => {
+  try {
+    console.log(req.params)
+    const { id } = req.params;
+    console.log(id)
+    const { startDate, endDate } = req.body;
+
+    //retrieve categories for the user
+    const categories = await categoryIncomesCtrl.getByIDUser(id);
+
+    //calculate total spendings across all categories
+    let totalIncomes = 0;
+    for (const category of categories) {
+      const result = await categoryIncomesCtrl.getTotalIncomesBetweenDates(category._id, startDate, endDate);
+      console.log(result.total_income_between_dates)
+      totalIncomes += result.total_income_between_dates;
+    }
+
+    res.status(200).json({ totalSpendings });
+  } catch (error) {
+    res.status(500).json({ error: error.message || 'Server error' });
+  }
+};
+
+exports.getTotalBudgetForUser = async (req, res, next) => {
+  try {
+    console.log(req.params)
+    const { id } = req.params;
+    console.log(id)
+    const { startDate, endDate } = req.body;
+
+    //retrieve categories for the user
+    const categories = await categorySpendingsCtrl.getByIDUser(id);
+
+    //calculate total spendings across all categories
+    let totalBudget = 0;
+    for (const category of categories) {
+      const result = await categorySpendingsCtrl.getTotalBudgetBetweenDates(category._id, startDate, endDate);
+      console.log(result.total_spending_between_dates)
+      totalBudget += result.total_spending_between_dates;
     }
 
     res.status(200).json({ totalSpendings });

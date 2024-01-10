@@ -56,11 +56,8 @@ exports.deleteAllCategories = (req, res, next) => {
 };
 
 
-
-
-
-// GET TOTAL INCOMES BETWEEN TWO DATES
-exports.getTotalSpendingsBetweenDates = (req, res, next) => {
+// GET TOTAL INCOMES BETWEEN TWO DATES FOR CATEGORY
+exports.getTotalIncomesBetweenDates = (req, res, next) => {
   const { id } = req.params;
   const { startDate, endDate } = req.body; 
   const formattedStartDate = moment(startDate, 'YYYY-MM').startOf('month');

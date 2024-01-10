@@ -81,7 +81,7 @@ exports.deleteAllSpendings = (req, res, next) => {
       .catch(error => res.status(400).json({ error }));
   };
 
-// GET ALL SPENDING LAST SIX MONTH
+// GET ALL SPENDING
 
 exports.getSpendingstwoDates = (req, res, next) => {
     const { id } = req.params;

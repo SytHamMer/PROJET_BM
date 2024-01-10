@@ -1,6 +1,7 @@
 const Income = require('../models/income');
 const CategoryIncomes = require('../models/category_incomes'); // Import category
 const jwt = require('jsonwebtoken');
+const moment = require('moment');
 
 //create income 
 exports.createIncome = async (req, res, next) => {
@@ -98,4 +99,25 @@ exports.getSumAllIncomes = async (req, res, next) => {
     } catch (error) {
         res.status(500).json({ error: 'Failed to get sum of all incomes' });
     }
+};
+
+exports.getIncomestwoDates = (req, res, next) => {
+    const { id } = req.params;
+    let amount = 0;
+    const { startDate, endDate } = req.body; 
+    const formattedStartDate = moment(startDate, 'YYYY-MM').startOf('month');
+    const formattedEndDate = moment(endDate, 'YYYY-MM').endOf('month');
+    Income.find({
+        idUser: id ,
+        date: {
+                $gte: formattedStartDate,
+                $lte: formattedEndDate
+                    }    })
+    .then(incomes => {incomes.forEach((income)=>{
+        amount += income.value
+        console.log(income.value)
+    })
+    res.status(200).json(amount)}
+        )
+    .catch(error => res.status(400).json({ error }));
 };

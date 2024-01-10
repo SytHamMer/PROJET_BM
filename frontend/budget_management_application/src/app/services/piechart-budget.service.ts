@@ -11,8 +11,8 @@ export class PiechartBudgetService {
 
   constructor(private http: HttpClient) {}
 
-  getSpendingBetweenDates(id_user: string, startDate: string, endDate: string): Observable<any> {
-    let url = `http://localhost:3000/api/category_spendings/${id_user}/spending-between-two-dates`;
+  getTotalSpendingsForUser(id_user: string, startDate: string, endDate: string): Observable<any> {
+    let url = `http://localhost:3000/api/category_spendings/${id_user}/totalSpendings`;
     const body = {"startDate":startDate, "endDate":endDate };
   
     return this.http.post<any>(url,  body )
@@ -32,7 +32,7 @@ export class PiechartBudgetService {
     );
   }
 
-  getBudgetSpent(id_user: string, startDate: string, endDate: string): Observable<any> {
+  getSpendingBetweenDates(id_user: string, startDate: string, endDate: string): Observable<any> {
     let url = `http://localhost:3000/api/category_spendings/${id_user}/spending-between-two-dates`;
     const body = {"startDate":startDate, "endDate":endDate };
   

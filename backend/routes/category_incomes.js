@@ -5,7 +5,7 @@ const categoryIncomesCtrl = require('../controllers/category_incomes');
 const router = express.Router();
 
 router.post('/create', categoryIncomesCtrl.createCategory);
-router.post('/:id/income-between-two-dates',categoryIncomesCtrl.getTotalSpendingsBetweenDates);
+router.post('/:id/income-between-two-dates',categoryIncomesCtrl.getTotalIncomesBetweenDates);
 
 router.delete('/delete/:id', categoryIncomesCtrl.deleteCategory);
 router.delete('/deleteAll',categoryIncomesCtrl.deleteAllCategories)
