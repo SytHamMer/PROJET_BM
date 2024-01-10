@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { PiechartBudgetService } from '../services/piechart-budget.service';
 import { AjoutDepenseComponent } from '../ajout-depense/ajout-depense.component';
 import { AjoutRevenuComponent } from '../ajout-revenu/ajout-revenu.component';
+import ApexCharts from 'apexcharts';
 
 @Component({
     selector: 'app-activity-page',
@@ -45,7 +46,8 @@ export class ActivityPageComponent {
         this.userId = this.userConnected.id;
         this.username=this.userConnected.username
       })
-      this.total  = 999
+      this.total  = 999;
+      // this.createDonutChart();
     }
 
   toggleMobileMenu() {
@@ -59,7 +61,10 @@ export class ActivityPageComponent {
       this.endDateInput.nativeElement.value = lastMonth;
       this.updateChart(); // Mettre à jour le graphique avec les valeurs par défaut du mois dernier
     }
-  }
+    setTimeout(() => {
+        this.createDonutChart();
+      });
+    }
 
   getLastMonth(): string {
     const today = new Date();
@@ -68,6 +73,29 @@ export class ActivityPageComponent {
     const month = (today.getMonth() + 1).toString().padStart(2, '0');
     return `${year}-${month}`;
   }
+
+  createDonutChart(): void {
+    const options: any = {
+      series: [44, 55, 41, 17, 15],
+      labels: ['A', 'B', 'C', 'D', 'E'],
+      chart: {
+        type: 'donut',
+      }
+    }
+    console.log('Inside createDonutChart method');
+  const element = document.getElementById('leftGraphDiv');
+  console.log('Element:', element);
+
+  if (element) {
+    console.log('Element found. Proceeding with chart creation.');
+    const chart = new ApexCharts(element, options);
+    console.log('Chart options:', chart);
+    chart.render();
+    console.log("c bon")
+  } else {
+    console.log('Element not found. Unable to create the chart.');
+  }
+}
 
 
   updateChart(): void {
