@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { PieChartComponent } from '../piechart-budget/piechart-budget.component';
+import { BudgetPrevReelComponent } from '../budget-prev-reel/budget-prev-reel.component';
 import { AjoutDepenseComponent } from '../ajout-depense/ajout-depense.component';
 import { MatDialog } from '@angular/material/dialog';
 import { AjoutRevenuComponent } from '../ajout-revenu/ajout-revenu.component';
@@ -12,7 +13,7 @@ import { User } from '../models/user.model';
 @Component({
   selector: 'app-homepage',
   standalone: true,
-  imports: [CommonModule,PieChartComponent],
+  imports: [CommonModule,PieChartComponent, BudgetPrevReelComponent],
   templateUrl: './homepage.component.html',
   styleUrl: './homepage.component.scss'
 })
