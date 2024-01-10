@@ -158,12 +158,12 @@ export class UserService {
 
   }
 
-  getListCategories(id : number, type : string){
+  getListCategories(id : string, type : string){
     let urlcategories = `http://localhost:3000/api/category_${type}/ByIdUser/${id}`;
     return this.http.get<any[]>(urlcategories);
   }
 
-  createCategorySpending(id_user : number, type: string, limit : number, name : string){
+  createCategorySpending(id_user : string, type: string, limit : number, name : string){
     let url = `http://localhost:3000/api/category_${type}/create`;
 
     const data = {'name':name,'monthly_limit':limit,'idUser':id_user}
