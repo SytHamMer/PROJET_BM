@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { PiechartBudgetService } from '../services/piechart-budget.service';
 import { ConnexionService } from '../services/connexion.service';
 import { UserService } from '../services/user.service';
@@ -14,9 +14,11 @@ import { User } from '../models/user.model';
   styleUrls: ['./piechart-budget.component.scss'],
 })
 
-export class PieChartComponent {
-  userId: number | undefined;
+export class PieChartComponent implements AfterViewInit {
+  userId: string | undefined;
   userConnected!: User;
+  @ViewChild('startDateInput') startDateInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('endDateInput') endDateInput!: ElementRef<HTMLInputElement>;
 
   constructor(
     private pieChartService: PiechartBudgetService,
@@ -32,32 +34,65 @@ export class PieChartComponent {
     })
   }
 
+  ngAfterViewInit(): void {
+    const lastMonth = this.getLastMonth();
+    if (this.startDateInput && this.endDateInput) {
+      this.startDateInput.nativeElement.value = lastMonth;
+      this.endDateInput.nativeElement.value = lastMonth;
+      this.updateChart(); // Mettre à jour le graphique avec les valeurs par défaut du mois dernier
+    }
+  }
+
+  getLastMonth(): string {
+    const today = new Date();
+    today.setMonth(today.getMonth() - 1);
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toString().padStart(2, '0');
+    return `${year}-${month}`;
+  }
+
+
   updateChart(): void {
     const startDate = (document.getElementById('startDate') as HTMLInputElement).value;
     const endDate = (document.getElementById('endDate') as HTMLInputElement).value;
-    console.log(startDate, endDate,this.userId);
-    
-    if (this.userId && startDate && endDate) {
-      this.pieChartService.getSpendingBetweenDates(this.userId, startDate, endDate).subscribe(
-        (data) => {
-          // Mettre à jour les données du graphique avec les données reçues du service
-          const chartOptions = this.getChartOptions(data); // Utilisez les données reçues pour construire les nouvelles options du graphique
+    const id = this.userId
 
-          const chart = new ApexCharts(document.querySelector('#donut-chart'), chartOptions);
-          chart.render();
+    if (id && startDate && endDate) {
+      this.pieChartService.getSpendingBetweenDates(id, startDate, endDate).subscribe(
+        (totalSpendingData) => {
+          // Première requête pour récupérer le montant total dépensé
+          const totalSpending = totalSpendingData;
+  
+          // Deuxième requête pour récupérer le budget déjà dépensé par rapport à l'autre valeur
+          this.pieChartService.getBudgetSpent(id, startDate, endDate).subscribe(
+            (budgetSpentData: any) => {
+              const budgetSpent = budgetSpentData;
+  
+              // Mettre à jour les données du graphique avec les données reçues des services
+              const chartOptions = this.getChartOptions(totalSpending, budgetSpent);
+  
+              const chart = new ApexCharts(document.querySelector('#donut-chart'), chartOptions);
+              chart.render();
+            },
+            (error: any) => {
+              console.error('Erreur lors de la récupération du budget dépensé : ', error);
+            }
+          );
         },
         (error) => {
-          console.error('Erreur lors de la récupération des données : ', error);
+          console.error('Erreur lors de la récupération du montant total dépensé : ', error);
         }
       );
     } else {
       console.warn('Veuillez sélectionner les dates et vérifier l\'ID utilisateur.');
     }
   }
-  getChartOptions(data: any): any {
+  
+  getChartOptions(totalSpending: number, budgetSpent: number): any {
+    // Utiliser les données reçues pour construire les nouvelles options du graphique
     return {
-      series: data.series,
-      colors: data.colors,
+      series: [totalSpending, budgetSpent], // Utilisation des deux valeurs pour le graphique
+      colors: ['#FF5733', '#3366FF'], // Couleurs pour représenter les deux valeurs (exemple)
       chart: {
         height: 320,
         width: '100%',
@@ -65,4 +100,4 @@ export class PieChartComponent {
       },
     };
   }
-}
+}  
