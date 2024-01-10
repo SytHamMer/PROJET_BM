@@ -4,6 +4,7 @@ import {FormsModule, NgForm} from "@angular/forms";
 import { User } from '../models/user.model';
 import { ConnexionService } from '../services/connexion.service';
 import { CommonModule } from '@angular/common';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-ajout-categorie',
@@ -23,7 +24,8 @@ export class AjoutCategorieComponent{
   userConnected!: User;
   errorLogin !: any | undefined;
 
-  constructor(private router: Router,
+  constructor(public dialogRef : MatDialogRef<AjoutCategorieComponent>,
+              private router: Router,
               protected connexionService: ConnexionService) {}
 
   ngOnInit() {
@@ -70,4 +72,7 @@ export class AjoutCategorieComponent{
     return this.errorLogin.type === 'password';
   }
 
+  close(): void {
+    this.dialogRef.close();
+  }
 }

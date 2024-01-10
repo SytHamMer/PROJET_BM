@@ -5,7 +5,9 @@ import { User } from '../models/user.model';
 import { ConnexionService } from '../services/connexion.service';
 import { CommonModule } from '@angular/common';
 import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { UserService } from '../services/user.service';
+import { AjoutCategorieComponent } from '../ajout-categorie/ajout-categorie.component';
 
 
 @Component({
@@ -27,6 +29,7 @@ export class AjoutDepenseComponent{
   errorLogin !: any | undefined;
 
   constructor(public dialogRef : MatDialogRef<AjoutDepenseComponent>,
+              public dialog: MatDialog,
               private router: Router,
               protected connexionService: ConnexionService,
               protected userService: UserService) {}
@@ -64,6 +67,13 @@ export class AjoutDepenseComponent{
 
   }
 
+  openNewCategory(): void {
+    this.dialog.open(AjoutCategorieComponent, {
+      width: '400px',
+      height: '600px'
+    });
+  }
+
   userConnectedIsLoaded() {
     return this.userConnected !== undefined;
   }
@@ -80,4 +90,7 @@ export class AjoutDepenseComponent{
     return this.errorLogin.type === 'password';
   }
 
+  close(): void {
+    this.dialogRef.close();
+  }
 }
