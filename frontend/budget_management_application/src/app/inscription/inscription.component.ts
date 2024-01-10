@@ -48,7 +48,6 @@ export class InscriptionComponent{
               console.error('Erreur lors du register :', error.error.message);
               this.errorConnexion = error.error;
             })
-            console.log("ICICICICICICICICICI")
 
       }
     }

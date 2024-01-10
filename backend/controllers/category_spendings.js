@@ -38,19 +38,7 @@ exports.getAllCategories = (req, res, next) => {
 // GET BYIDUSER
 
 
-// GET BYIDUSER
 
-exports.getByIDUser = (req, res, next) => {
-  const { id } = req.params;
-  console.log(id)
-  CategorySpendings.find({ idUser: id })
-    .then(categories => {
-      res.status(200).json({ categories });
-    })
-    .catch(error => {
-      res.status(400).json({ error });
-    });
-};
 
 // DELETE ALL CATEGORIES
 exports.deleteAllCategories = (req, res, next) => {
@@ -74,40 +62,21 @@ exports.getMonthlyLimit = (req, res, next) => {
 };
 
 
-// GET LIMIT BETWEEN TWO DATES
 
 
-// exports.getTotalLimitsBetweenDates = (req, res, next) => {
-//   const { id } = req.params;
-//   const { startDate, endDate } = req.body;
-//   const formattedStartDate = moment(startDate, 'YYYY-MM').startOf('month');
-//   const formattedEndDate = moment(endDate, 'YYYY-MM').endOf('month');
+// GET BYIDUSER
 
-//   Category.findById(id)
-//     .then(category => {
-//       if (!category) {
-//         return res.status(404).json({ message: 'Category not found' });
-//       }
-
-//       const startMonthYear = formattedStartDate.format('YYYY-MM');
-//       const endMonthYear = formattedEndDate.format('YYYY-MM');
-//       let totalLimits = 0;
-//       console.log(totalLimits);
-
-//       for (let m = moment(startMonthYear); m.isSameOrBefore(endMonthYear); m.add(1, 'month')) {
-//         const monthlyLimit = category.monthly_limits; 
-//         console.log(monthlyLimit);
-//         if (monthlyLimit) {
-//           totalLimits += monthlyLimit; 
-//         }
-//       }
-//       res.status(200).json({ total_limits_between_dates: totalLimits });
-//     })
-//     .catch(error => res.status(500).json({ error }));
-// };
-
-
-
+exports.getByIDUser = (req, res, next) => {
+  const { id } = req.params;
+  console.log(id)
+  CategorySpendings.find({ idUser: id })
+    .then(categories => {
+      res.status(200).json({ categories });
+    })
+    .catch(error => {
+      res.status(400).json({ error });
+    });
+};
 // GET TOTAL SPENDING BETWEEN TWO DATES
 exports.getTotalSpendingsBetweenDates = (req, res, next) => {
   const { id } = req.params;
@@ -116,7 +85,6 @@ exports.getTotalSpendingsBetweenDates = (req, res, next) => {
   const formattedEndDate = moment(endDate, 'YYYY-MM').endOf('month');
   
   console.log(formattedStartDate, formattedEndDate)
-
   CategorySpendings.findById(id)
     .populate({
       path: 'spendings',
@@ -140,4 +108,7 @@ exports.getTotalSpendingsBetweenDates = (req, res, next) => {
     })
     .catch(error => res.status(500).json({ error }));
 };
+
+
+
 

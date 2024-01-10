@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { PieChartComponent } from '../piechart-budget/piechart-budget.component';
+import { BudgetPrevReelComponent } from '../budget-prev-reel/budget-prev-reel.component';
 import { AjoutDepenseComponent } from '../ajout-depense/ajout-depense.component';
 import { MatDialog } from '@angular/material/dialog';
 import { AjoutRevenuComponent } from '../ajout-revenu/ajout-revenu.component';
@@ -11,11 +12,11 @@ import { User } from '../models/user.model';
 import { MenuComponent } from "../menu/menu.component";
 
 @Component({
-    selector: 'app-homepage',
-    standalone: true,
-    templateUrl: './homepage.component.html',
-    styleUrl: './homepage.component.scss',
-    imports: [CommonModule, PieChartComponent, MenuComponent]
+  selector: 'app-homepage',
+  standalone: true,
+  imports: [CommonModule,PieChartComponent, BudgetPrevReelComponent, MenuComponent],
+  templateUrl: './homepage.component.html',
+  styleUrl: './homepage.component.scss'
 })
 export class HomepageComponent {
   isMenuPhoneHidden: boolean = true;
