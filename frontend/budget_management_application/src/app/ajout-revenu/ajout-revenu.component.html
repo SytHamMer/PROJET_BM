@@ -7,33 +7,22 @@
       <div>
         <label for="categorie" class="block text-sm font-medium leading-6 text-gray-900">Catégorie</label>
         <div class="flex">
-          <select id="categories" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">            <option selected>Sélectionner une catégorie</option>
-            <!-- <ul>
-              <li *ngFor="let element of elements">
-                {{ element.name }} 
-              </li>
-            </ul> -->
-            <option value="US">United States</option>
-            <option value="CA">Canada</option>
-            <option value="FR">France</option>
-            <option value="DE">Germany</option>
+          <select id="categories" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+            <option selected>Sélectionner une catégorie</option>
+            <option *ngFor="let category of list_categories_incomes" [value]="category.id">{{ category.name}}</option>
           </select>
           <button (click)="openNewCategory()" class="flex items-center justify-center text-white ml-3 py-2 px-4 rounded-full font-medium bg-gray-600 bg-opacity-50">+</button>
         </div>
-        <div *ngIf="errorLoginExist() && errorIsEmail()" class="text-red-700">
-          {{ errorLogin.message }}
-        </div>
+
       </div>
       <div>
         <label for="description" class="block text-sm font-medium leading-6 text-gray-900">Description</label>
         <div class="mt-2">
           <input id="description" name="description" ngModel type="description" autocomplete="description" required class="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-          <div *ngIf="f.value.email === '' && submit" class="text-red-700">
-            Enter an email
+          <div *ngIf="f.value.description === '' && submit" class="text-red-700">
+            Enter an description
           </div>
-          <div *ngIf="errorLoginExist() && errorIsEmail()" class="text-red-700">
-            {{ errorLogin.message }}
-          </div>
+
         </div>
       </div>
       <div>
@@ -46,31 +35,24 @@
             <input id="montant" name="montant" ngModel type="montant"required class="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
             <span class="ml-3 py-2 px-4">€</span>
           </div>
-          <div *ngIf="f.value.password === '' && submit" class="text-red-700">
-            Enter a password
+          <div *ngIf="f.value.montant === '' && submit" class="text-red-700">
+            Enter a montant
           </div>
-          <div *ngIf="errorLoginExist() && errorIsPassword()" class="text-red-700">
-            {{ errorLogin.message }}
-          </div>
+
         </div>
       </div>
 
       <div>
         <label for="date" class="block text-sm font-medium leading-6 text-gray-900">Date de la transaction</label>
         <div class="mt-2">
-          <input type="date" id="transactionDate" name="transactionDate" class="rounded w-full px-2 py-1 border border-gray-300">
+          <input type="date" id="transactionDate" name="date" class="rounded w-full px-2 py-1 border border-gray-300">
         </div>
       </div>
 
       <div class="flex justify-between">
         <button type="submit" class="w-1/2 mr-4 rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sauvegarder</button>
-        <div *ngIf="errorLoginExist() || errorIsPassword() || errorIsEmail()">
-          <p class="text-red-700">Login error and/or password.</p>
-        </div>
         <button type="button" (click)="close()" class="w-1/2 ml-4 rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Abandonner</button>
-        <div *ngIf="errorLoginExist() || errorIsPassword() || errorIsEmail()">
-          <p class="text-red-700">Login error and/or password.</p>
-        </div>
+
       </div>
 
     </form>

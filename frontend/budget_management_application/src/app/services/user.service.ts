@@ -2,6 +2,10 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, map, throwError } from 'rxjs';
 import { User } from '../models/user.model';
+import { CategorieIncomes } from '../models/categorie_incomes.model';
+import { CategorieSpendings } from '../models/categorie_spendings.model';
+
+
 
 @Injectable({
   providedIn: "root",
@@ -158,13 +162,13 @@ export class UserService {
 
   }
 
-  getListCategories(id : string, type : string){
+  getListCategories(id : number, type : string){
     let urlcategories = `http://localhost:3000/api/category_${type}/ByIdUser/${id}`;
     return this.http.get<any[]>(urlcategories);
   }
 
-  createCategorySpending(id_user : string, type: string, limit : number, name : string){
-    let url = `http://localhost:3000/api/category_${type}/create`;
+  createCategorySpending(id_user : string, limit : number, name : string){
+    let url = `http://localhost:3000/api/category_spendings/create`;
 
     const data = {'name':name,'monthly_limit':limit,'idUser':id_user}
     return this.http.post<any>(url, data)
@@ -184,5 +188,64 @@ export class UserService {
       )
 
 
+  }
+
+
+  createCategoryIncome(id_user : string, name : string){
+    let url = `http://localhost:3000/api/category_incomes/create`;
+
+    const data = {'name':name,'idUser':id_user}
+    return this.http.post<any>(url, data)
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          if (error.status === 400) {
+            // Cas où l'authentification a échoué
+            console.error('Register échouée :', error);
+          } else {
+            // Autres erreurs HTTP
+            console.error('Erreur lors du register :', error);
+          }
+
+          // Propager l'erreur pour permettre à d'autres parties de l'application de la gérer si nécessaire
+          return throwError(error);
+        })
+      )
+
+
+  }
+
+
+  getListAllCategoriesIncomes(id_user: string) : Observable<any>  {
+    const url = `http://localhost:3000/api/category_incomes/byIdUser/${id_user}`;
+    console.log(id_user)
+    return this.http.get<any[]>(url).pipe((
+      map((data:any)=> {
+        console.log("OUI")
+        return data.categories.map((category: any) => {
+          console.log(category)
+          return new CategorieIncomes(category._id, category.idUser,category.name)
+        })
+      })
+    )); 
+  }
+
+  getListAllCategoriesSpendings(id_user: string) : Observable<any>  {
+    const url = `http://localhost:3000/api/category_spendings/byIdUser/${id_user}`;
+    console.log(id_user)
+    return this.http.get<any[]>(url).pipe((
+      map((data:any)=> {
+        console.log("OUI")
+        return data.categories.map((category: any) => {
+          console.log(category)
+          return new CategorieSpendings(category._id, category.idUser,category.name,category.monthly_limit)
+        })
+      })
+    )); 
+  }
+
+  createIncome(value : Number,date : Date ,id_category: string,id_user: string  ) : Observable<any> {
+    const url = `http://localhost:3000/api/income/create/`;
+    const data = {"value":value,"date":date,"category":id_category,"idUser": id_user}
+    return this.http.post<any>(url,data)
   }
 }

@@ -37,9 +37,10 @@ exports.getAllCategories = (req, res, next) => {
 
 exports.getByIDUser = (req, res, next) => {
   const { id } = req.params;
-  console.log(id)
   CategoryIncomes.find({ idUser: id })
     .then(categories => {
+      console.log("category_incomes")
+      console.log(categories)
       res.status(200).json({ categories });
     })
     .catch(error => {

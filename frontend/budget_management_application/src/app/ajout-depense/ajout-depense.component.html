@@ -7,16 +7,9 @@
       <div>
         <label for="categorie" class="block text-sm font-medium leading-6 text-gray-900">Catégorie</label>
         <div class="flex">
-          <select id="categories" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">            <option selected>Sélectionner une catégorie</option>
-            <!-- <ul>
-              <li *ngFor="let element of elements">
-                {{ element.name }} 
-              </li>
-            </ul> -->
-            <option value="US">United States</option>
-            <option value="CA">Canada</option>
-            <option value="FR">France</option>
-            <option value="DE">Germany</option>
+          <select id="categories" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+            <option selected>Sélectionner une catégorie</option>
+            <option *ngFor="let category of list_categories_spendings" [value]="category.id">{{ category.name}}</option>
           </select>
           <button (click)="openNewCategory()" class="flex items-center justify-center text-white ml-3 py-2 px-4 rounded-full font-medium bg-gray-600 bg-opacity-50">+</button>
         </div>

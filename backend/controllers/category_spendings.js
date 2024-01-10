@@ -35,7 +35,6 @@ exports.getAllCategories = (req, res, next) => {
 };
 
 
-// GET BYIDUSER
 
 
 
@@ -68,9 +67,10 @@ exports.getMonthlyLimit = (req, res, next) => {
 
 exports.getByIDUser = (req, res, next) => {
   const { id } = req.params;
-  console.log(id)
   CategorySpendings.find({ idUser: id })
     .then(categories => {
+      // console.log("category_spendings")
+      // console.log(categories)
       res.status(200).json({ categories });
     })
     .catch(error => {
@@ -84,7 +84,7 @@ exports.getTotalSpendingsBetweenDates = (req, res, next) => {
   const formattedStartDate = moment(startDate, 'YYYY-MM').startOf('month');
   const formattedEndDate = moment(endDate, 'YYYY-MM').endOf('month');
   
-  console.log(formattedStartDate, formattedEndDate)
+  // console.log(formattedStartDate, formattedEndDate)
   CategorySpendings.findById(id)
     .populate({
       path: 'spendings',
