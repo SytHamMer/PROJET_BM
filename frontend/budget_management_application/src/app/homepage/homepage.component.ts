@@ -9,11 +9,12 @@ import { Router, RouterLink} from "@angular/router";
 import { ConnexionService } from '../services/connexion.service';
 import { UserService } from '../services/user.service';
 import { User } from '../models/user.model';
+import { MenuComponent } from "../menu/menu.component";
 
 @Component({
   selector: 'app-homepage',
   standalone: true,
-  imports: [CommonModule,PieChartComponent, BudgetPrevReelComponent],
+  imports: [CommonModule,PieChartComponent, BudgetPrevReelComponent, MenuComponent],
   templateUrl: './homepage.component.html',
   styleUrl: './homepage.component.scss'
 })
@@ -43,6 +44,7 @@ export class HomepageComponent {
 
   openNewSpending(): void {
     this.dialog.open(AjoutDepenseComponent, {
+      panelClass: 'dialog-container',
       width: '400px',
       height: '600px'
     });
@@ -50,6 +52,7 @@ export class HomepageComponent {
 
   openNewIncome(): void {
     this.dialog.open(AjoutRevenuComponent, {
+      panelClass: 'dialog-container',
       width: '400px',
       height: '600px'
     });

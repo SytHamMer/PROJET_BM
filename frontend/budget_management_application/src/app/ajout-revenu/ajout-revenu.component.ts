@@ -87,6 +87,7 @@ export class AjoutRevenuComponent{
 
   openNewCategory(): void {
     this.dialog.open(AjoutCategorieComponent, {
+      panelClass: 'dialog-container',
       width: '400px',
       height: '600px'
     });

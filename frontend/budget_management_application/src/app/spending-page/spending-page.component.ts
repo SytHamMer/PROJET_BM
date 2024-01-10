@@ -5,13 +5,14 @@ import { Router, RouterLink} from "@angular/router";
 import { User } from '../models/user.model';
 import { ConnexionService } from '../services/connexion.service';
 import { UserService } from '../services/user.service';
+import { MenuComponent } from "../menu/menu.component";
 
 @Component({
-  selector: 'app-spending-page',
-  standalone: true,
-  imports: [CommonModule,PieChartComponent],
-  templateUrl: './spending-page.component.html',
-  styleUrl: './spending-page.component.scss'
+    selector: 'app-spending-page',
+    standalone: true,
+    templateUrl: './spending-page.component.html',
+    styleUrl: './spending-page.component.scss',
+    imports: [CommonModule, PieChartComponent, MenuComponent]
 })
 export class SpendingPageComponent {
   isMenuPhoneHidden: boolean = true;  submit = false;
