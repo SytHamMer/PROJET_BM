@@ -7,6 +7,7 @@ const router = express.Router();
 router.post('/create', categorySpendingsCtrl.createCategory);
 router.post('/:id/spending-between-two-dates',categorySpendingsCtrl.getTotalSpendingsBetweenDates);
 router.post('/:id/budget',categorySpendingsCtrl.getTotalBudget);
+router.post('/EachCategorySpendings/:id',categorySpendingsCtrl.getEachCategorySpendingsTotal);
 // router.post('/:id/limit-between-two-dates',categorySpendingsCtrl.getTotalLimitsBetweenDates);
 
 router.delete('/delete/:id', categorySpendingsCtrl.deleteCategory);

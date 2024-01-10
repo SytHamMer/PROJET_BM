@@ -7,7 +7,7 @@ import { ConnexionService } from '../services/connexion.service';
 import { UserService } from '../services/user.service';
 import { MenuComponent } from "../menu/menu.component";
 import { MatDialog } from '@angular/material/dialog';
-import { PiechartBudgetService } from '../services/piechart-budget.service';
+import { ActivityPageService } from '../services/activity-page.service';
 import { AjoutDepenseComponent } from '../ajout-depense/ajout-depense.component';
 import { AjoutRevenuComponent } from '../ajout-revenu/ajout-revenu.component';
 import ApexCharts from 'apexcharts';
@@ -33,7 +33,7 @@ export class ActivityPageComponent {
 
 
   constructor(private router: Router,
-    private pieChartService: PiechartBudgetService,
+    private activityPageService: ActivityPageService,
     protected connexionService: ConnexionService,
     public dialog: MatDialog,
     protected userService: UserService) {}
@@ -75,27 +75,34 @@ export class ActivityPageComponent {
   }
 
   createDonutChart(): void {
-    const options: any = {
+    const options1: any = {
       series: [44, 55, 41, 17, 15],
       labels: ['A', 'B', 'C', 'D', 'E'],
       chart: {
         type: 'donut',
+      },
+      legend: {
+        show: false,
       }
     }
-    console.log('Inside createDonutChart method');
-  const element = document.getElementById('leftGraphDiv');
-  console.log('Element:', element);
 
-  if (element) {
-    console.log('Element found. Proceeding with chart creation.');
-    const chart = new ApexCharts(element, options);
-    console.log('Chart options:', chart);
-    chart.render();
-    console.log("c bon")
-  } else {
-    console.log('Element not found. Unable to create the chart.');
-  }
+
+    const options2: any = {
+      series: [44, 55, 41, 17, 15],
+      labels: ['A', 'B', 'C', 'D', 'E'],
+      chart: {
+        type: 'donut',
+      },
+      legend: {
+        show: false,
+      }
+    }
+    const chart1 = new ApexCharts(document.getElementById('leftGraphDiv'), options1);
+    chart1.render();
+    const chart2 = new ApexCharts(document.getElementById('rightGraphDiv'), options2);
+    chart2.render();
 }
+
 
 
   updateChart(): void {
@@ -104,26 +111,27 @@ export class ActivityPageComponent {
     const id = this.userId
 
     if (id && startDate && endDate) {
-      this.pieChartService.getSpendingBetweenDates(id, startDate, endDate).subscribe(
-        (totalSpendingData) => {
-          // Première requête pour récupérer le montant total dépensé
-          const totalSpending = totalSpendingData;
-  
+      this.activityPageService.getTotalSpendingByCategory(id, startDate, endDate).subscribe(
+        (response) => {
+          // Première requête pour récupérer le montant total dépensé     
+          console.log(response)     
+          // const totalValuesList = Object.values(totalSpendingData).map(item => item.totalValue);
+          // const keysList = Object.keys(totalSpendingData);
+
           // Deuxième requête pour récupérer le budget déjà dépensé par rapport à l'autre valeur
-          this.pieChartService.getBudgetSpent(id, startDate, endDate).subscribe(
-            (budgetSpentData: any) => {
-              const budgetSpent = budgetSpentData;
+          // this.pieChartService.getBudget(id, startDate, endDate).subscribe(
+          //   (budgetSpentData: any) => {
+          //     const budgetSpent = budgetSpentData;
+          //     // Mettre à jour les données du graphique avec les données reçues des services
+          //     const chartOptions = this.getChartOptions(totalSpending, budgetSpent);
   
-              // Mettre à jour les données du graphique avec les données reçues des services
-              const chartOptions = this.getChartOptions(totalSpending, budgetSpent);
-  
-              const chart = new ApexCharts(document.querySelector('#donut-chart'), chartOptions);
-              chart.render();
-            },
-            (error: any) => {
-              console.error('Erreur lors de la récupération du budget dépensé : ', error);
-            }
-          );
+          //     const chart = new ApexCharts(document.querySelector('#donut-chart'), chartOptions);
+          //     chart.render();
+          //   },
+          //   (error: any) => {
+          //     console.error('Erreur lors de la récupération du budget dépensé : ', error);
+          //   }
+          // );
         },
         (error) => {
           console.error('Erreur lors de la récupération du montant total dépensé : ', error);
