@@ -69,45 +69,18 @@ export class UserComponent implements OnInit {
       if(lf.value.email != this.firstEmail){
         console.log("email")
         console.log(lf.value.email)
+        this.userService.updateEmail(this.userConnected.id,lf.value.email).subscribe()
 
         
       }      
       //modification password
       if(lf.value.password != ""){
         console.log("password")
-        console.log(lf.value.password)
-        // this.userService.updatePassword(this.userConnected.id, f.value.password)
-        // console.log("update fait ")
-        // console.log(this.userConnected.password);
-        
+        this.userService.updatePassword(this.userConnected.id,lf.value.password).subscribe()
+
         
       }
-      // const formData = {"username":f.value.username, "email":f.value.email,"password":f.value.password}
-    
-      // if (f.value.username != ""  && 
-      //     f.value.email != "" && 
-      //     f.value.password != "" && 
-      //     !this.errorConnexionExist()) {
 
-        // this.connexionService.signup(formData)
-
-        // this.router.navigateByUrl("/home");
-            // .subscribe(
-            //   data => {
-            //     this.connexionService.getUserLoggedIn()
-            //       .subscribe(user => {
-            //         console.log("ICICICICICICICICICI");
-            //         this.router.navigateByUrl("/home");
-            //       })
-            // },
-            // error => {
-            //   console.log("error")
-            //   console.error('Erreur lors du register :', error.error.message);
-            //   this.errorConnexion = error.error;
-            // })
-            // console.log("ICICICICICICICICICI")
-
-      // }
     }
 
   errorConnexionExist() {
