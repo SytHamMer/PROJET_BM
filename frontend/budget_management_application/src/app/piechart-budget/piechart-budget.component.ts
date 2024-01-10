@@ -55,19 +55,17 @@ export class PieChartComponent implements AfterViewInit {
   updateChart(): void {
     const startDate = (document.getElementById('startDate') as HTMLInputElement).value;
     const endDate = (document.getElementById('endDate') as HTMLInputElement).value;
-    const id = this.userId
-
+    const id = this.userId;
+    
     if (id && startDate && endDate) {
       this.pieChartService.getSpendingBetweenDates(id, startDate, endDate).subscribe(
         (totalSpendingData) => {
           // Première requête pour récupérer le montant total dépensé
           const totalSpending = totalSpendingData;
-  
           // Deuxième requête pour récupérer le budget déjà dépensé par rapport à l'autre valeur
-          this.pieChartService.getTotalSpendingsForUser(id, startDate, endDate).subscribe(
+          this.pieChartService.getBudget(id,startDate, endDate).subscribe(
             (budgetSpentData: any) => {
               const budgetSpent = budgetSpentData;
-  
               // Mettre à jour les données du graphique avec les données reçues des services
               const chartOptions = this.getChartOptions(totalSpending, budgetSpent);
   
@@ -86,18 +84,27 @@ export class PieChartComponent implements AfterViewInit {
     } else {
       console.warn('Veuillez sélectionner les dates et vérifier l\'ID utilisateur.');
     }
+    
   }
   
   getChartOptions(totalSpending: number, budgetSpent: number): any {
-    // Utiliser les données reçues pour construire les nouvelles options du graphique
+    // Vérifier si totalSpending ou budgetSpent est égal à zéro
+    const isTotalSpendingZero = totalSpending === 0;
+    const isBudgetSpentZero = budgetSpent === 0;
+  
+    // Définir les couleurs en fonction de la condition
+    const colors = (isTotalSpendingZero || isBudgetSpentZero) ? ['#ccc'] : ['#FF5733', '#3366FF'];
+  
+    // Construction des options du graphique
     return {
-      series: [totalSpending, budgetSpent], // Utilisation des deux valeurs pour le graphique
-      colors: ['#FF5733', '#3366FF'], // Couleurs pour représenter les deux valeurs (exemple)
+      series: [totalSpending, budgetSpent],
+      colors: colors,
+      labels: ['Total Spending', 'Budget Spent'],
       chart: {
         height: 320,
-        width: '100%',
         type: 'donut',
       },
     };
   }
+  
 }  

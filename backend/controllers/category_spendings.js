@@ -77,6 +77,7 @@ exports.getByIDUser = (req, res, next) => {
       res.status(400).json({ error });
     });
 };
+
 // GET TOTAL SPENDING BETWEEN TWO DATES
 exports.getTotalSpendingsBetweenDates = (req, res, next) => {
   const { id } = req.params;
@@ -110,33 +111,19 @@ exports.getTotalSpendingsBetweenDates = (req, res, next) => {
 };
 
 // GET TOTAL BUDGET BETWEEN TWO DATES
-exports.getTotalBudgetBetweenDates = (req, res, next) => {
+exports.getTotalBudget = (req, res, next) => {
   const { id } = req.params;
-  const { startDate, endDate } = req.body; 
-  const formattedStartDate = moment(startDate, 'YYYY-MM').startOf('month');
-  const formattedEndDate = moment(endDate, 'YYYY-MM').endOf('month');
-  
-  console.log(formattedStartDate, formattedEndDate)
-  CategorySpendings.findById(id)
-    .populate({
-      path: 'budgets',
-      match: {
-        date: {
-          $gte: formattedStartDate,
-          $lte: formattedEndDate
-        }
-      },
-      select: 'value date'
-    })
-    .then(category => {
-      if (!category) {
-        return res.status(404).json({ message: 'Category not found' });
-      }
-      console.log(category.budget);
-      const spendings = category.spendings.filter(s => s.date >= formattedStartDate && s.date <= formattedEndDate);
-      console.log(spendings);
-      const totalSpending = spendings.reduce((total, s) => total + s.value, 0);
-      res.status(200).json({ total_spending_between_dates: totalSpending });
-    })
-    .catch(error => res.status(500).json({ error }));
+  let amount = 0;
+
+  CategorySpendings.find({
+    idUser: id,})
+  .then(categories => {
+    categories.forEach((c) => {
+      amount += c.monthly_limit;
+    });
+    res.status(200).json({ amount });  
+  })
+  .catch(error => {
+    res.status(400).json({ error: error.message });
+  });
 };

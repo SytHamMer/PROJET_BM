@@ -86,12 +86,10 @@ exports.deleteAllSpendings = (req, res, next) => {
 exports.getSpendingstwoDates = (req, res, next) => {
     const { id } = req.params;
     let amount = 0;
-    console.log(req.params)
     const { startDate, endDate } = req.body; 
     const formattedStartDate = moment(startDate, 'YYYY-MM').startOf('month');
     const formattedEndDate = moment(endDate, 'YYYY-MM').endOf('month');
-    console.log(formattedStartDate, formattedEndDate)
-    console.log(id)
+    console.log('testttttt')
     Spending.find({
         idUser: id ,
         date: {

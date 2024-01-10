@@ -17,9 +17,6 @@ router.delete('/deleteAll', userCtrl.deleteAllUsers);
 
 router.get('/:id', userCtrl.getUserByID);
 router.get('/', userCtrl.getAllUser);
-router.get('/:id/totalSpendings', userCtrl.getTotalSpendingsForUser);
-router.get('/:id/totalIncomes', userCtrl.getTotalIncomesForUser);
-router.get('/:id/totalBudget', userCtrl.getTotalBudgetForUser);
 
 
 module.exports = router;

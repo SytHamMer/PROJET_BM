@@ -11,7 +11,7 @@ router.delete('/deleteAll', spendingCtrl.deleteAllSpendings)
 
 router.get('/',spendingCtrl.getAllSpendings);
 router.get('/byIdUser/:id',spendingCtrl.getByIDUser);
-router.get('/TwoDates/:id', spendingCtrl.getSpendingstwoDates);
+router.post('/TwoDates/:id', spendingCtrl.getSpendingstwoDates);
 
 
 module.exports = router;

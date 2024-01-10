@@ -34,22 +34,31 @@ export class BudgetPrevReelComponent {
 
   // ...
 
-updateChart(): void {
-  if (this.userId) {
-    this.pieChartService.getBudgetsForLastSixMonths(this.userId).subscribe(
-      (data: any) => {
-        const chartOptions = this.getChartOptions(data);
-        const chart = new ApexCharts(document.querySelector('#column-chart'), chartOptions);
-        chart.render();
-      },
-      (error: any) => {
-        console.error('Erreur lors de la récupération des données : ', error);
-      }
-    );
-  } else {
-    console.warn('Veuillez vérifier l\'ID utilisateur.');
+  updateChart(): void {
+    const currentDate = new Date();
+    const sixMonthsAgo = new Date(currentDate.getFullYear(), currentDate.getMonth() - 6, 1);
+    const startDate = `${sixMonthsAgo.getFullYear()}-${(sixMonthsAgo.getMonth() + 1).toString().padStart(2, '0')}`;
+    
+    const currentMonth = currentDate.getMonth() + 1; // Récupère le mois actuel
+    const currentYear = currentDate.getFullYear();
+    const endDate = `${currentYear}-${currentMonth.toString().padStart(2, '0')}`;
+    
+    if (this.userId) {
+      this.pieChartService.getBudget(this.userId, startDate, endDate).subscribe(
+        (data: any) => {
+          const chartOptions = this.getChartOptions(data);
+          const chart = new ApexCharts(document.querySelector('#column-chart'), chartOptions);
+          chart.render();
+        },
+        (error: any) => {
+          console.error('Erreur lors de la récupération des données : ', error);
+        }
+      );
+    } else {
+      console.warn('Veuillez vérifier l\'ID utilisateur.');
+    }
   }
-}
+  
 
 getChartOptions(data: any): any {
   // Utiliser les données reçues pour construire les nouvelles options du graphique
