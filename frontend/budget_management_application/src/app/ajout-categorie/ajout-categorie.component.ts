@@ -49,7 +49,9 @@ selectedOption: any;
     const selectedValue = f.value.categoryType
     console.log(selectedValue); 
     //a = dépense
-    if (selectedValue == 'a'){
+    if (selectedValue == 'a' && f.value.nom != '' && f.value.montant != 0){
+      console.log(this.userConnected.id)
+
 
     //b = revenu
     }
