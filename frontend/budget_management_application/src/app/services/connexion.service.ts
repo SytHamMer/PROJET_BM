@@ -17,14 +17,16 @@ export class ConnexionService {
       .pipe(
         map(user => {
           let userConnected = new User(
-            user._id,
+            user.userId,
             user.username,
             user.email,
             user.password,
           );
           console.log(user);
           localStorage.removeItem("user_id");
-          localStorage.setItem("user_id", user._id);
+          localStorage.setItem("user_id", user.userId);
+          console.log("AAAAAA")
+          console.log(localStorage.getItem("user_id"))
           this.userLoggedIn.next(userConnected);
           console.log(userConnected);
 

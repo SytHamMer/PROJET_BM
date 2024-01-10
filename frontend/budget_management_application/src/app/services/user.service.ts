@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, map, throwError } from 'rxjs';
+import { Observable, catchError, map, throwError } from 'rxjs';
 import { User } from '../models/user.model';
 import { log } from 'console';
 
@@ -34,16 +34,17 @@ export class UserService {
     );
   }
 
+  
 
-  updateUsername(id: Number,newUsername: string) {
+
+  updateUsername(id: Number,newUsername: string): Observable<any> {
     let url =  `http://localhost:3000/api/user/updateUsername/${id}`;
     console.log("dans user service:");
     console.log(url);
     
     
     const data = {"newUsername": newUsername}
-    console.log(data);
-  
+    console.log(data);   
     return this.http.post<any>(url,  data )
     .pipe(
       catchError((error: HttpErrorResponse) => {
@@ -133,5 +134,11 @@ export class UserService {
     let urlincomecate = `http://localhost:3000/api/category_incomes/ByIdUser/${id}`;
 
   }
+
+
+
+
+
+
 
 }
