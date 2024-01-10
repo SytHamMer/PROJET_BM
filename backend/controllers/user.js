@@ -60,8 +60,7 @@ exports.login = (req, res, next) => {
                 if (!valid) {
                     return res.status(401).json({message: "Password incorrect"});
                 }
-
-                res.status(200).json({
+                  return res.status(200).json({
                     userId: user._id, 
                     token: jwt.sign(
                         {userId: user._id},
@@ -69,8 +68,10 @@ exports.login = (req, res, next) => {
                         {expiresIn: '24h'}
                     )
                 });
+
+                
             })
-            .catch(error => res.status(500).json({ othererr: "othererr" }));
+            .catch(error => res.status(500).json({ othererr: "othererrr" }));
         })
         .catch(error => res.status(500).json({ err: "lala" }));
 

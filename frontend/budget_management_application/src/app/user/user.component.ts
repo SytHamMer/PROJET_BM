@@ -39,8 +39,7 @@ export class UserComponent implements OnInit {
     this.connexionService.getUserLoggedIn()
     .subscribe(user => {
       this.userConnected = user as User;
-      // console.log(this.userConnected);
-
+      console.log("dans user component")
       console.log(this.userConnected);
       this.firstUsername = this.userConnected.username
       this.firstEmail= this.userConnected.email
@@ -63,7 +62,7 @@ export class UserComponent implements OnInit {
       if(lf.value.username != this.firstUsername){
         console.log("username")
         console.log(lf.value.username)
-        this.userService.updateUsername(this.userConnected.id,lf.value.username)
+        this.userService.updateUsername(this.userConnected.id,lf.value.username).subscribe()
         
       }
       //modification email
