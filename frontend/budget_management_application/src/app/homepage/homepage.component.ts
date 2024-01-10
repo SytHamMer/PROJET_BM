@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { PieChartComponent } from '../piechart-budget/piechart-budget.component';
 import { AjoutDepenseComponent } from '../ajout-depense/ajout-depense.component';
 import { MatDialog } from '@angular/material/dialog';
+import { AjoutRevenuComponent } from '../ajout-revenu/ajout-revenu.component';
 
 @Component({
   selector: 'app-homepage',
@@ -22,6 +23,13 @@ export class HomepageComponent {
 
   openNewSpending(): void {
     this.dialog.open(AjoutDepenseComponent, {
+      width: '400px',
+      height: '600px'
+    });
+  }
+
+  openNewIncome(): void {
+    this.dialog.open(AjoutRevenuComponent, {
       width: '400px',
       height: '600px'
     });
