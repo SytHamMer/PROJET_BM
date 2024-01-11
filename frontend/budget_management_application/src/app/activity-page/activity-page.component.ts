@@ -29,6 +29,8 @@ export class ActivityPageComponent {
   userId: string | undefined;
   @ViewChild('startDateInput') startDateInput!: ElementRef<HTMLInputElement>;
   @ViewChild('endDateInput') endDateInput!: ElementRef<HTMLInputElement>;
+  spendings: any[] = [];
+  incomes: any[] = [];
 
 
 
@@ -45,9 +47,27 @@ export class ActivityPageComponent {
         console.log(this.userConnected);
         this.userId = this.userConnected.id;
         this.username=this.userConnected.username
+        this.activityPageService.getAllSpendings(this.userId).subscribe(
+          (data: any) => {
+            this.spendings = data.spendings;
+          },
+          (error: any) => {
+            console.error('Error fetching spendings: ', error);
+          }
+        );
+        this.activityPageService.getAllIncomes(this.userId).subscribe(
+          (data: any) => {
+            this.incomes = data.incomes;
+          },
+          (error: any) => {
+            console.error('Error fetching incomes: ', error);
+          }
+        );
       })
       this.total  = 999;
       // this.createDonutChart();
+
+    
     }
 
   toggleMobileMenu() {
@@ -168,4 +188,5 @@ export class ActivityPageComponent {
       height: '600px'
     });
   }
-}  
+
+}
