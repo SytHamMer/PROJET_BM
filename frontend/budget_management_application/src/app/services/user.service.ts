@@ -243,9 +243,9 @@ export class UserService {
     )); 
   }
 
-  createIncome(value : Number,date : Date ,id_category: string,id_user: string  ) : Observable<any>  {
+  createIncome(name: string,value : Number,date : Date ,id_category: string,id_user: string  ) : Observable<any>  {
     const url = `http://localhost:3000/api/income/create/`;
-    const data = {"value":value,"date":date,"category":id_category,"idUser": id_user}
+    const data = {"name":name,"value":value,"date":date,"category":id_category,"idUser": id_user}
     console.log("dans createIncome")
     console.log(data)
     return this.http.post<any>(url,data)
@@ -264,9 +264,9 @@ export class UserService {
     )
   }
 
-  createSpending(value : Number,date : Date ,id_category: string,id_user: string  ) : Observable<any> {
+  createSpending(name:string ,value : Number,date : Date ,id_category: string,id_user: string  ) : Observable<any> {
     const url = `http://localhost:3000/api/spending/create/`;
-    const data = {"value":value,"date":date,"category":id_category,"idUser": id_user}
+    const data = {"name": name,"value":value,"date":date,"category":id_category,"idUser": id_user}
     return this.http.post<any>(url,data)
     .pipe(
       catchError((error: HttpErrorResponse) => {
