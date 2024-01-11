@@ -11,7 +11,7 @@
 
 ## Authors
 
-- [@Mathys LEBON](https://github.com/SytHamMer)
+- [@Mathys Lebon](https://github.com/SytHamMer)
 - [@Carlyne Barrachin](https://github.com/carlyyne)
 - [@Lila Cadoux](https://github.com/lilcdx)
 
