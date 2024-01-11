@@ -19,10 +19,27 @@
     color: #523482
 }
 
-#userlogo {
-    filter: brightness(0) invert(1) grayscale(1);
+.transaction-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .transaction-name {
+    flex-grow: 1; /* The name takes all available space */
+  }
+  
+  .transaction-value {
+    margin-left: 20px; /* Add space between name and value */
+    text-align: right; /* Align the value to the right */
   }
 
-#userButton:hover img{
-    filter: none;
+  .positive {
+    color: green; /* or any other color for spendings */
   }
+  
+  .negative {
+    color: red; /* or any other color for incomes */
+  }
+  

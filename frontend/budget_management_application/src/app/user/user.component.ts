@@ -6,13 +6,14 @@ import { ConnexionService } from '../services/connexion.service';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../services/user.service';
 import { MenuComponent } from "../menu/menu.component";
+import { PieChartComponent } from '../piechart-budget/piechart-budget.component';
 
 @Component({
     selector: 'app-user',
     standalone: true,
     templateUrl: './user.component.html',
     styleUrl: './user.component.scss',
-    imports: [CommonModule, FormsModule, RouterLink, MenuComponent]
+    imports: [CommonModule, FormsModule, RouterLink, MenuComponent,PieChartComponent]
 })
 export class UserComponent implements OnInit {
   submit = false;

@@ -31,7 +31,7 @@ export class ActivityPageComponent {
   @ViewChild('endDateInput') endDateInput!: ElementRef<HTMLInputElement>;
   spendings: any[] = [];
   incomes: any[] = [];
-
+  all: any[] = [];
 
 
   constructor(private router: Router,
@@ -42,33 +42,50 @@ export class ActivityPageComponent {
   
     ngOnInit(): void {
       this.connexionService.getUserLoggedIn()
-      .subscribe(user => {
-        this.userConnected = user as User;
-        console.log(this.userConnected);
-        this.userId = this.userConnected.id;
-        this.username=this.userConnected.username
-        this.activityPageService.getAllSpendings(this.userId).subscribe(
-          (data: any) => {
-            this.spendings = data.spendings;
-          },
-          (error: any) => {
-            console.error('Error fetching spendings: ', error);
-          }
-        );
-        this.activityPageService.getAllIncomes(this.userId).subscribe(
-          (data: any) => {
-            this.incomes = data.incomes;
-          },
-          (error: any) => {
-            console.error('Error fetching incomes: ', error);
-          }
-        );
-      })
-      this.total  = 999;
-      // this.createDonutChart();
-
+        .subscribe(user => {
+          this.userConnected = user as User;
+          this.userId = this.userConnected.id;
+          this.username = this.userConnected.username;
     
+          this.activityPageService.getAllSpendings(this.userId).subscribe(
+            (data: any) => {
+              this.spendings = data.spendings;
+              this.processData();
+            },
+            (error: any) => {
+              console.error('Error fetching spendings: ', error);
+            }
+          );
+    
+          this.activityPageService.getAllIncomes(this.userId).subscribe(
+            (data: any) => {
+              this.incomes = data.incomes;
+              this.processData();
+            },
+            (error: any) => {
+              console.error('Error fetching incomes: ', error);
+            }
+          );
+        });
     }
+    
+    processData(): void {
+      if (this.spendings && this.incomes) {
+        // Add a new property 'transactionCategory' to each spending
+        this.spendings.forEach(spending => (spending.transactionCategory = 'spending'));
+    
+        // Add a new property 'transactionCategory' to each income
+        this.incomes.forEach(income => (income.transactionCategory = 'income'));
+    
+        // Combine spendings and incomes
+        this.all = [...this.spendings, ...this.incomes];
+    
+        // Sort the combined array based on the date
+        this.all.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      }
+    }
+    
+    
 
   toggleMobileMenu() {
     this.isMenuPhoneHidden = !this.isMenuPhoneHidden;

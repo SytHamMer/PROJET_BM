@@ -21,14 +21,14 @@
         </div>        
         <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
           <div class="transactions">
-            <div *ngFor="let transaction of spendings" class="transaction-item background-container shadow-xl p-4">
+            <div *ngFor="let transaction of incomes" class="transaction-item background-container shadow-xl p-4">
                 <div class="col-md-6">
                   <span class="transaction-category">{{ transaction.transactionCategory }}</span>
                   <span class="transaction-name">{{ transaction.name }}</span>
                 </div>
                 <div class="col-md-6 text-right">
                   <span class="transaction-value" [ngClass]="{'positive': transaction.transactionCategory === 'spending', 'negative': transaction.transactionCategory === 'income'}">
-                    {{ transaction.transactionCategory === 'spending' ? '+' : '-' }}{{ transaction.value }}
+                    +{{ transaction.value }}
                   </span>
                   <br>
                   <span class="transaction-date">{{ transaction.date | date: 'medium' }}</span>
