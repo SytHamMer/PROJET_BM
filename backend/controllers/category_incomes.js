@@ -1,4 +1,5 @@
 const CategoryIncomes = require('../models/category_incomes');
+const Income = require('../models/income');
 const jwt = require('jsonwebtoken');
 const moment = require('moment');
 
@@ -87,4 +88,38 @@ exports.getTotalIncomesBetweenDates = (req, res, next) => {
       res.status(200).json({ total_income_between_dates: totalIncome });
     })
     .catch(error => res.status(500).json({ error }));
+};
+
+// GET INCOMESTOTALS FOR EACH CATEGORY BY USER
+exports.getEachCategoryIncomesTotal = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { startDate, endDate } = req.body;
+    const formattedStartDate = moment(startDate, 'YYYY-MM').startOf('month');
+    const formattedEndDate = moment(endDate, 'YYYY-MM').endOf('month');
+    console.log(formattedStartDate, formattedEndDate, id);
+ 
+    const categoryTotals = await CategoryIncomes.find({ idUser: id });
+ 
+    // Formatage des résultats en un objet avec le nom de la catégorie comme clé et liste des dépenses
+    const categoryIncomesTotal = {};
+ 
+    // Parcourir chaque catégorie
+    for (const category of categoryTotals) {
+      const incomesDetails = await Income.find({
+        _id: { $in: category.incomes }, // Rechercher les dépenses associées à la catégorie
+        date: { $gte: formattedStartDate, $lte: formattedEndDate } // Filtrer par intervalle de dates
+      });
+ 
+      // Calculer la somme des valeurs de dépenses
+      const totalValue = incomesDetails.reduce((total, income) => total + income.value, 0);
+ 
+      // Ajouter les détails à l'objet de résultats
+      categoryIncomesTotal[category.name] = totalValue;
+    }
+ 
+    res.status(200).json(categoryIncomesTotal);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 };

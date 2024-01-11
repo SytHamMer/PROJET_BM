@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.post('/create', categoryIncomesCtrl.createCategory);
 router.post('/:id/income-between-two-dates',categoryIncomesCtrl.getTotalIncomesBetweenDates);
+router.post('/EachCategoryIncomes/:id',categoryIncomesCtrl.getEachCategoryIncomesTotal);
 
 router.delete('/delete/:id', categoryIncomesCtrl.deleteCategory);
 router.delete('/deleteAll',categoryIncomesCtrl.deleteAllCategories)

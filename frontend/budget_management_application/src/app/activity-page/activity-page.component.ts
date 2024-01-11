@@ -29,7 +29,8 @@ export class ActivityPageComponent {
   userId: string | undefined;
   @ViewChild('startDateInput') startDateInput!: ElementRef<HTMLInputElement>;
   @ViewChild('endDateInput') endDateInput!: ElementRef<HTMLInputElement>;
-
+  leftChart: ApexCharts | undefined;
+  rightChart: ApexCharts | undefined;
 
 
   constructor(private router: Router,
@@ -44,10 +45,10 @@ export class ActivityPageComponent {
         this.userConnected = user as User;
         console.log(this.userConnected);
         this.userId = this.userConnected.id;
-        this.username=this.userConnected.username
+        this.username=this.userConnected.username;
+        this.createDonutChart(this.getMonth());
       })
       this.total  = 999;
-      // this.createDonutChart();
     }
 
   toggleMobileMenu() {
@@ -55,53 +56,64 @@ export class ActivityPageComponent {
   }
   
   ngAfterViewInit(): void {
-    const lastMonth = this.getLastMonth();
+    const month = this.getMonth();
     if (this.startDateInput && this.endDateInput) {
-      this.startDateInput.nativeElement.value = lastMonth;
-      this.endDateInput.nativeElement.value = lastMonth;
+      this.startDateInput.nativeElement.value = month;
+      this.endDateInput.nativeElement.value = month;
       this.updateChart(); // Mettre à jour le graphique avec les valeurs par défaut du mois dernier
     }
-    setTimeout(() => {
-        this.createDonutChart();
-      });
     }
 
-  getLastMonth(): string {
-    const today = new Date();
-    today.setMonth(today.getMonth() - 1);
-    const year = today.getFullYear();
-    const month = (today.getMonth() + 1).toString().padStart(2, '0');
-    return `${year}-${month}`;
-  }
+    getMonth(): string {
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = (today.getMonth() + 1).toString().padStart(2, '0');
+      return `${year}-${month}`;
+    }
+    
+   
+    createDonutChart(lastMonth: string): void {
+      const id = this.userId;
+   
+      if (id && lastMonth) {
+        this.activityPageService.getTotalSpendingByCategory(id, lastMonth, lastMonth).subscribe(
+          (response) => {
+            const totalValuesList = Object.values(response).map((item : any)=> item.totalValue);
+            const keysList = Object.keys(response);
+            console.log(totalValuesList);
+            console.log(keysList);
+            const chartOptions = this.getChartOptions(totalValuesList, keysList)
+            if (this.leftChart) {
+              this.leftChart.updateOptions(chartOptions);
+            } else {
+              this.leftChart = new ApexCharts(document.getElementById('leftGraphDiv'), chartOptions);
+              this.leftChart.render();
+            }
+          },
+          (error) => {
+            console.error('Erreur lors de la récupération du montant total dépensé : ', error);
+          }
+        );
 
-  createDonutChart(): void {
-    const options1: any = {
-      series: [44, 55, 41, 17, 15],
-      labels: ['A', 'B', 'C', 'D', 'E'],
-      chart: {
-        type: 'donut',
-      },
-      legend: {
-        show: false,
+        this.activityPageService.getTotalIncomeByCategory(id, lastMonth, lastMonth).subscribe(
+          (response) => {
+            const valuesList = Object.values(response);
+            const keysList = Object.keys(response);
+            const chartOptions = this.getChartOptions(valuesList, keysList)
+            if (this.rightChart) {
+              this.rightChart.updateOptions(chartOptions);
+            } else {
+              this.rightChart = new ApexCharts(document.getElementById('rightGraphDiv'), chartOptions);
+              this.rightChart.render();
+            }
+          },
+          (error) => {
+            console.error('Erreur lors de la récupération du montant total dépensé : ', error);
+          }
+        );
+      
       }
     }
-
-
-    const options2: any = {
-      series: [44, 55, 41, 17, 15],
-      labels: ['A', 'B', 'C', 'D', 'E'],
-      chart: {
-        type: 'donut',
-      },
-      legend: {
-        show: false,
-      }
-    }
-    const chart1 = new ApexCharts(document.getElementById('leftGraphDiv'), options1);
-    chart1.render();
-    const chart2 = new ApexCharts(document.getElementById('rightGraphDiv'), options2);
-    chart2.render();
-}
 
 
 
@@ -113,25 +125,34 @@ export class ActivityPageComponent {
     if (id && startDate && endDate) {
       this.activityPageService.getTotalSpendingByCategory(id, startDate, endDate).subscribe(
         (response) => {
-          // Première requête pour récupérer le montant total dépensé     
-          console.log(response)     
-          // const totalValuesList = Object.values(totalSpendingData).map(item => item.totalValue);
-          // const keysList = Object.keys(totalSpendingData);
+          const totalValuesList = Object.values(response).map((item : any)=> item.totalValue);
+          const keysList = Object.keys(response);
+          console.log(totalValuesList);
+          console.log(keysList);
+          const chartOptions = this.getChartOptions(totalValuesList, keysList)
+          if (this.leftChart) {
+            this.leftChart.updateOptions(chartOptions);
+          } else {
+            this.leftChart = new ApexCharts(document.getElementById('leftGraphDiv'), chartOptions);
+            this.leftChart.render();
+          }
+        },
+        (error) => {
+          console.error('Erreur lors de la récupération du montant total dépensé : ', error);
+        }
+      );
 
-          // Deuxième requête pour récupérer le budget déjà dépensé par rapport à l'autre valeur
-          // this.pieChartService.getBudget(id, startDate, endDate).subscribe(
-          //   (budgetSpentData: any) => {
-          //     const budgetSpent = budgetSpentData;
-          //     // Mettre à jour les données du graphique avec les données reçues des services
-          //     const chartOptions = this.getChartOptions(totalSpending, budgetSpent);
-  
-          //     const chart = new ApexCharts(document.querySelector('#donut-chart'), chartOptions);
-          //     chart.render();
-          //   },
-          //   (error: any) => {
-          //     console.error('Erreur lors de la récupération du budget dépensé : ', error);
-          //   }
-          // );
+      this.activityPageService.getTotalIncomeByCategory(id, startDate, endDate).subscribe(
+        (response) => {
+          const valuesList = Object.values(response);
+          const keysList = Object.keys(response);
+          const chartOptions = this.getChartOptions(valuesList, keysList)
+          if (this.rightChart) {
+            this.rightChart.updateOptions(chartOptions);
+          } else {
+            this.rightChart = new ApexCharts(document.getElementById('rightGraphDiv'), chartOptions);
+            this.rightChart.render();
+          }
         },
         (error) => {
           console.error('Erreur lors de la récupération du montant total dépensé : ', error);
@@ -142,16 +163,19 @@ export class ActivityPageComponent {
     }
   }
   
-  getChartOptions(totalSpending: number, budgetSpent: number): any {
+  getChartOptions(totalValuesList: any[], keysList: any[]): any {
     // Utiliser les données reçues pour construire les nouvelles options du graphique
     return {
-      series: [totalSpending, budgetSpent], // Utilisation des deux valeurs pour le graphique
-      colors: ['#FF5733', '#3366FF'], // Couleurs pour représenter les deux valeurs (exemple)
+      series: totalValuesList, // Utilisation des deux valeurs pour le graphique
+      labels: keysList,
       chart: {
         height: 320,
         width: '100%',
         type: 'donut',
       },
+      legend: {
+        show: false,
+      }
     };
   }
 
