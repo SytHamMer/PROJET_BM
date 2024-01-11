@@ -34,7 +34,11 @@ In /frontend/budget_management_application
     "select first one everytime"
     ng serve
 ```
+You can use the user :
+email : Pascal@gmail.com
+password : pascal
 
+he already has somes categories, incomes and spendings.
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
