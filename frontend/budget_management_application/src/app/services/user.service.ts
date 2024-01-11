@@ -15,8 +15,7 @@ export class UserService {
 
   updatePassword(id: string,newPassword: string): Observable<any>  {
     let url =  `http://localhost:3000/api/user/updatePassword/${id}`;
-    console.log("dans user service:");
-    console.log(url);
+    // console.log(url);
     
     
     const data = {"newPassword": newPassword}
@@ -40,12 +39,10 @@ export class UserService {
 
   updateEmail(id: string,newEmail: string): Observable<any> {
     let url =  `http://localhost:3000/api/user/updateEmail/${id}`;
-    console.log("dans user service:");
-    console.log(url);
-    
+    // console.log(url);
     
     const data = {"newEmail": newEmail}
-    console.log(data);  
+    // console.log(data);  
     return this.http.post<any>(url,  data )
     .pipe(
       catchError((error: HttpErrorResponse) => {
@@ -66,12 +63,11 @@ export class UserService {
 
   updateUsername(id: string,newUsername: string): Observable<any> {
     let url =  `http://localhost:3000/api/user/updateUsername/${id}`;
-    console.log("dans user service:");
-    console.log(url);
+    // console.log(url);
     
     
     const data = {"newUsername": newUsername}
-    console.log(data);  
+    // console.log(data);  
     return this.http.post<any>(url,  data )
     .pipe(
       catchError((error: HttpErrorResponse) => {
@@ -153,9 +149,9 @@ export class UserService {
 
   getTotal(id: string){
     let urlspendingcate = `http://localhost:3000/api/category_spendings/ByIdUser/${id}`;
-    console.log(urlspendingcate);
+    // console.log(urlspendingcate);
     const data = this.http.get(urlspendingcate)
-    console.log(data)
+    // console.log(data)
 
 
     let urlincomecate = `http://localhost:3000/api/category_incomes/ByIdUser/${id}`;
@@ -217,12 +213,11 @@ export class UserService {
 
   getListAllCategoriesIncomes(id_user: string) : Observable<any>  {
     const url = `http://localhost:3000/api/category_incomes/byIdUser/${id_user}`;
-    console.log(id_user)
+    // console.log(id_user)
     return this.http.get<any[]>(url).pipe((
       map((data:any)=> {
-        console.log("OUI")
         return data.categories.map((category: any) => {
-          console.log(category)
+          // console.log(category)
           return new CategorieIncomes(category._id, category.idUser,category.name)
         })
       })
@@ -246,8 +241,7 @@ export class UserService {
   createIncome(name: string,value : Number,date : Date ,id_category: string,id_user: string  ) : Observable<any>  {
     const url = `http://localhost:3000/api/income/create/`;
     const data = {"name":name,"value":value,"date":date,"category":id_category,"idUser": id_user}
-    console.log("dans createIncome")
-    console.log(data)
+    // console.log(data)
     return this.http.post<any>(url,data)
     .pipe(
       catchError((error: HttpErrorResponse) => {

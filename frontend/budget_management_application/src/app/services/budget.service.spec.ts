@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { PiechartBudgetService } from './piechart-budget.service';
+import { BudgetService } from './budget.service';
 
 describe('PiechartBudgetService', () => {
-  let service: PiechartBudgetService;
+  let service: BudgetService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(PiechartBudgetService);
+    service = TestBed.inject(BudgetService);
   });
 
   it('should be created', () => {

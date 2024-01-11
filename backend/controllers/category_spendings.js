@@ -101,9 +101,9 @@ exports.getTotalSpendingsBetweenDates = (req, res, next) => {
       if (!category) {
         return res.status(404).json({ message: 'Category not found' });
       }
-      console.log(category.spendings);
+      // console.log(category.spendings);
       const spendings = category.spendings.filter(s => s.date >= formattedStartDate && s.date <= formattedEndDate);
-      console.log(spendings);
+      // console.log(spendings);
       const totalSpending = spendings.reduce((total, s) => total + s.value, 0);
       res.status(200).json({ total_spending_between_dates: totalSpending });
     })
@@ -135,7 +135,7 @@ exports.getEachCategorySpendingsTotal = async (req, res, next) => {
     const { startDate, endDate } = req.body;
     const formattedStartDate = moment(startDate, 'YYYY-MM').startOf('month');
     const formattedEndDate = moment(endDate, 'YYYY-MM').endOf('month');
-    console.log(formattedStartDate, formattedEndDate, id);
+    // console.log(formattedStartDate, formattedEndDate, id);
  
     const categoryTotals = await CategorySpendings.find({ idUser: id });
  
@@ -172,7 +172,7 @@ exports.getEachCategorySpendingsTotal = async (req, res, next) => {
     const { startDate, endDate } = req.body;
     const formattedStartDate = moment(startDate, 'YYYY-MM').startOf('month');
     const formattedEndDate = moment(endDate, 'YYYY-MM').endOf('month');
-    console.log(formattedStartDate, formattedEndDate, id);
+    // console.log(formattedStartDate, formattedEndDate, id);
  
     const categoryTotals = await CategorySpendings.find({ idUser: id });
  
@@ -210,7 +210,7 @@ exports.getEachCategorySpendingsTotal = async (req, res, next) => {
     const { startDate, endDate } = req.body;
     const formattedStartDate = moment(startDate, 'YYYY-MM').startOf('month');
     const formattedEndDate = moment(endDate, 'YYYY-MM').endOf('month');
-    console.log(formattedStartDate, formattedEndDate, id);
+    // console.log(formattedStartDate, formattedEndDate, id);
 
     const categoryTotals = await CategorySpendings.find({ idUser: id });
 

@@ -7,7 +7,7 @@ import { Spendings } from '../models/spendings.model';
 @Injectable({
   providedIn: 'root'
 })
-export class PiechartBudgetService {
+export class BudgetService {
 
   constructor(private http: HttpClient) {}
 
@@ -21,7 +21,7 @@ export class PiechartBudgetService {
         if (error.status === 401) {
           console.error('recherche du budget par dates échouée :', error);
         } else {
-          console.log(url,body);
+          // console.log(url,body);
           // Gérer d'autres erreurs HTTP
           console.error('Erreur lors de la connexion :', error);
         }
@@ -109,7 +109,7 @@ export class PiechartBudgetService {
           if (error.status === 401) {
             console.error('recherche du budget par dates échouée :', error);
           } else {
-            console.log(url);
+            // console.log(url);
             // Gérer d'autres erreurs HTTP
             console.error('Erreur lors de la connexion :', error);
           }

@@ -48,12 +48,10 @@ export class AjoutDepenseComponent{
                 this.userService.getListAllCategoriesSpendings(this.userConnected.id).subscribe(
                   (data) => {
                     this.list_categories_spendings = data;
-                    console.log(this.list_categories_spendings);
-                    console.log("prout")
-                    console.log(data)
+                    // console.log(this.list_categories_spendings);
                     if (this.list_categories_spendings != undefined){
                       this.list_categories_spendings.forEach((category: any) =>{
-                        console.log(category.id)
+                        // console.log(category.id)
                       })
                     }
             
@@ -72,19 +70,18 @@ export class AjoutDepenseComponent{
     this.isLoading = true;
     const category = (document.getElementById('categories') as HTMLInputElement).value;
     const date = (document.getElementById('date') as HTMLInputElement).value;
-    console.log("dans le submit")
-    console.log(category)
+    // console.log("dans le submit")
+    // console.log(category)
     if (f.value.description != "" && f.value.montant != "" && category !="undefined"){
       const real_date = new Date(Date.now())
  
       if (date != ""){
-        console.log("ici")
         const real_date = new Date(date)
         this.userService.createSpending(f.value.description, f.value.montant,real_date,category,this.userConnected.id).subscribe()
        
       }
       else {
-        console.log(real_date)
+        // console.log(real_date)
         this.userService.createSpending(f.value.description, f.value.montant,real_date,category,this.userConnected.id).subscribe()
        
       }

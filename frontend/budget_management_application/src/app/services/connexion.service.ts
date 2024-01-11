@@ -22,13 +22,12 @@ export class ConnexionService {
             user.email,
             user.password,
           );
-          console.log(user);
+          // console.log(user);
           localStorage.removeItem("user_id");
           localStorage.setItem("user_id", user.userId);
-          console.log("AAAAAA")
-          console.log(localStorage.getItem("user_id"))
+          // console.log(localStorage.getItem("user_id"))
           this.userLoggedIn.next(userConnected);
-          console.log(userConnected);
+          // console.log(userConnected);
 
           return userConnected;
         })
@@ -37,7 +36,7 @@ export class ConnexionService {
 
   getUserLoggedIn(): Observable<User | undefined> {
     let user_id = localStorage.getItem("user_id");
-    console.log(user_id);
+    // console.log(user_id);
 
     if (user_id !== null) {
       // Retourne l'observable directement du service UserService

@@ -31,7 +31,7 @@ export class ActivityPageService {
       if (error.status === 401) {
         console.error('recherche des dépenses échouée :', error);
       } else {
-        console.log(url);
+        // console.log(url);
         // Gérer d'autres erreurs HTTP
         console.error('Erreur lors de la connexion :', error);
       }
@@ -51,7 +51,7 @@ getAllIncomes(id_user: string): Observable<any> {
       if (error.status === 401) {
         console.error('recherche des revenus échouée :', error);
       } else {
-        console.log(url);
+        // console.log(url);
         // Gérer d'autres erreurs HTTP
         console.error('Erreur lors de la connexion :', error);
       }

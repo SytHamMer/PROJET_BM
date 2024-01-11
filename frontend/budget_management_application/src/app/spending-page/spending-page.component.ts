@@ -7,6 +7,8 @@ import { ConnexionService } from '../services/connexion.service';
 import { UserService } from '../services/user.service';
 import { MenuComponent } from "../menu/menu.component";
 import { ActivityPageService } from '../services/activity-page.service';
+import { MatDialog } from '@angular/material/dialog';
+import { AjoutDepenseComponent } from '../ajout-depense/ajout-depense.component';
 
 @Component({
     selector: 'app-spending-page',
@@ -27,6 +29,7 @@ export class SpendingPageComponent {
 
   constructor(private router: Router,
     private activityPageService: ActivityPageService,
+    public dialog: MatDialog,
     protected connexionService: ConnexionService,
     protected userService: UserService) {}
   
@@ -51,4 +54,11 @@ export class SpendingPageComponent {
     this.isMenuPhoneHidden = !this.isMenuPhoneHidden;
   }
 
+  openNewSpending(): void {
+    this.dialog.open(AjoutDepenseComponent, {
+      panelClass: 'dialog-container',
+      width: '400px',
+      height: '600px'
+    });
+  }
 }

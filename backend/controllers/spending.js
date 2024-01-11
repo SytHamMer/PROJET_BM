@@ -63,7 +63,7 @@ exports.getAllSpendings = (req, res, next) => {
 
 exports.getByIDUser = (req, res, next) => {
     const { id } = req.params;
-    console.log(id)
+    // console.log(id)
     Spending.find({ idUser: id })
       .then(spendings => {
         res.status(200).json({ spendings });
@@ -99,7 +99,7 @@ exports.getSpendingstwoDates = (req, res, next) => {
                     }    })
     .then(spendings => {spendings.forEach((spending)=>{
         amount += spending.value
-        console.log(spending.value)
+        // console.log(spending.value)
     })
     res.status(200).json(amount)}
         )

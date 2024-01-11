@@ -97,7 +97,7 @@ exports.getEachCategoryIncomesTotal = async (req, res, next) => {
     const { startDate, endDate } = req.body;
     const formattedStartDate = moment(startDate, 'YYYY-MM').startOf('month');
     const formattedEndDate = moment(endDate, 'YYYY-MM').endOf('month');
-    console.log(formattedStartDate, formattedEndDate, id);
+    // console.log(formattedStartDate, formattedEndDate, id);
  
     const categoryTotals = await CategoryIncomes.find({ idUser: id });
  

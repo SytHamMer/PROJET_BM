@@ -6,7 +6,9 @@ import { User } from '../models/user.model';
 import { ConnexionService } from '../services/connexion.service';
 import { UserService } from '../services/user.service';
 import { MenuComponent } from "../menu/menu.component";
+import { MatDialog } from '@angular/material/dialog';
 import { ActivityPageService } from '../services/activity-page.service';
+import { AjoutRevenuComponent } from '../ajout-revenu/ajout-revenu.component';
 
 @Component({
     selector: 'app-incomes-page',
@@ -26,7 +28,8 @@ export class IncomesPageComponent {
 
 
   constructor(private router: Router,
-    private activityPageService: ActivityPageService,
+    private activityPageService: ActivityPageService,    
+    public dialog: MatDialog,
     protected connexionService: ConnexionService,
     protected userService: UserService) {}
   
@@ -44,13 +47,20 @@ export class IncomesPageComponent {
             console.error('Error fetching incomes: ', error);
           }
         );
-        console.log(this.incomes);
+        // console.log(this.incomes);
         
       })
     }
 
   toggleMobileMenu() {
     this.isMenuPhoneHidden = !this.isMenuPhoneHidden;
+  }
+
+  openNewIncome(): void {
+    this.dialog.open(AjoutRevenuComponent, {
+      width: '400px',
+      height: '600px'
+    });
   }
 
 }

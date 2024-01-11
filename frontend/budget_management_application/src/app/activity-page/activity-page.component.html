@@ -41,7 +41,7 @@
                 </div>
                 <div class="col-md-6 text-right">
                   <span class="transaction-value" [ngClass]="{'positive': transaction.transactionCategory === 'spending', 'negative': transaction.transactionCategory === 'income'}">
-                    {{ transaction.transactionCategory === 'spending' ? '+' : '-' }}{{ transaction.value }}
+                    {{ transaction.transactionCategory === 'spending' ? '-' : '+' }}{{ transaction.value }}
                   </span>
                   <br>
                   <span class="transaction-date">{{ transaction.date | date: 'medium' }}</span>

@@ -11,7 +11,7 @@ import { ActivityPageService } from '../services/activity-page.service';
 import { AjoutDepenseComponent } from '../ajout-depense/ajout-depense.component';
 import { AjoutRevenuComponent } from '../ajout-revenu/ajout-revenu.component';
 import ApexCharts from 'apexcharts';
-import { PiechartBudgetService} from '../services/piechart-budget.service'
+import { BudgetService} from '../services/budget.service'
 
 
 
@@ -46,7 +46,7 @@ export class ActivityPageComponent {
     protected connexionService: ConnexionService,
     public dialog: MatDialog,
     protected userService: UserService,
-    protected piechartService : PiechartBudgetService) {}
+    protected budgetService : BudgetService) {}
   
     ngOnInit(): void {
       const lastMonth = this.getMonth(); 
@@ -76,18 +76,18 @@ export class ActivityPageComponent {
             }
           );
 
-          this.piechartService.getSpendingBetweenDates(this.userConnected.id, "2000-01", "2030-01").subscribe(
+          this.budgetService.getSpendingBetweenDates(this.userConnected.id, "2000-01", "2030-01").subscribe(
             (totalSpendingData) => {
               this.totalSpendings = totalSpendingData;
-              console.log(this.totalSpendings);
+              // console.log(this.totalSpendings);
               this.checkAndCalculateTotal();
             }
           );
       
-          this.piechartService.getIncomeBetweenDates(this.userConnected.id, "2000-01", "2030-01").subscribe(
+          this.budgetService.getIncomeBetweenDates(this.userConnected.id, "2000-01", "2030-01").subscribe(
             (totalIncomeData) => {
               this.totalIncomes = totalIncomeData;
-              console.log(this.totalIncomes);
+              // console.log(this.totalIncomes);
               this.checkAndCalculateTotal();
             }
           );
@@ -103,8 +103,7 @@ export class ActivityPageComponent {
     private checkAndCalculateTotal(): void {
       if (this.totalIncomes !== undefined && this.totalSpendings !== undefined) {
         this.total = Number(this.totalIncomes) - Number(this.totalSpendings);
-        console.log("ici");
-        console.log(this.total);
+        // console.log(this.total);
       }
     }
     
@@ -155,8 +154,8 @@ export class ActivityPageComponent {
           (response) => {
             const totalValuesList = Object.values(response).map((item : any)=> item.totalValue);
             const keysList = Object.keys(response);
-            console.log(totalValuesList);
-            console.log(keysList);
+            // console.log(totalValuesList);
+            // console.log(keysList);
             const chartOptions = this.getChartOptions(totalValuesList, keysList)
             if (this.leftChart) {
               this.leftChart.updateOptions(chartOptions);
@@ -202,8 +201,8 @@ export class ActivityPageComponent {
         (response) => {
           const totalValuesList = Object.values(response).map((item : any)=> item.totalValue);
           const keysList = Object.keys(response);
-          console.log(totalValuesList);
-          console.log(keysList);
+          // console.log(totalValuesList);
+          // console.log(keysList);
           const chartOptions = this.getChartOptions(totalValuesList, keysList)
           if (this.leftChart) {
             this.leftChart.updateOptions(chartOptions);

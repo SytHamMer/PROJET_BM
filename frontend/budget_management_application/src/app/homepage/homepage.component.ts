@@ -33,7 +33,7 @@ export class HomepageComponent {
     this.connexionService.getUserLoggedIn()
     .subscribe(user => {
       this.userConnected = user as User;
-      console.log(this.userConnected);
+      // console.log(this.userConnected);
       this.username=this.userConnected.username
     })
   }

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { PiechartBudgetService } from '../services/piechart-budget.service';
+import { BudgetService } from '../services/budget.service';
 import { ConnexionService } from '../services/connexion.service';
 import { UserService } from '../services/user.service';
 import ApexCharts from 'apexcharts';
@@ -22,7 +22,7 @@ export class PieChartComponent implements AfterViewInit {
   chart: ApexCharts | undefined;
 
   constructor(
-    private pieChartService: PiechartBudgetService,
+    private budgetService: BudgetService,
     private connexionService: ConnexionService,
     private userService: UserService
   ) {}
@@ -58,13 +58,13 @@ export class PieChartComponent implements AfterViewInit {
     const id = this.userId;
 
     if (id && lastMonth) {
-    this.pieChartService.getSpendingBetweenDates(id, lastMonth, lastMonth).subscribe(
+    this.budgetService.getSpendingBetweenDates(id, lastMonth, lastMonth).subscribe(
       (totalSpendingData) => {
         // Première requête pour récupérer le montant total dépensé
         const totalSpending = totalSpendingData;
         
         // Deuxième requête pour récupérer le budget déjà dépensé par rapport à l'autre valeur
-        this.pieChartService.calculateBudget(id,lastMonth, lastMonth).subscribe(
+        this.budgetService.calculateBudget(id,lastMonth, lastMonth).subscribe(
           (budgetSpentData: any) => {
             const budget = budgetSpentData;
             // Mettre à jour les données du graphique avec les données reçues des services
@@ -91,14 +91,14 @@ export class PieChartComponent implements AfterViewInit {
     const endDate = (document.getElementById('endDate') as HTMLInputElement).value;
     const id = this.userId;
     if (id && startDate && endDate) {
-      this.pieChartService.getSpendingBetweenDates(id, startDate, endDate).subscribe(
+      this.budgetService.getSpendingBetweenDates(id, startDate, endDate).subscribe(
         (totalSpendingData) => {
           
           // Première requête pour récupérer le montant total dépensé
           const totalSpending = totalSpendingData;
           
           // Deuxième requête pour récupérer le budget déjà dépensé par rapport à l'autre valeur
-          this.pieChartService.calculateBudget(id,startDate, endDate).subscribe(
+          this.budgetService.calculateBudget(id,startDate, endDate).subscribe(
             (budgetSpentData) => {
               const budget = budgetSpentData;
               // Mettre à jour les données du graphique avec les données reçues des services
@@ -126,11 +126,8 @@ export class PieChartComponent implements AfterViewInit {
   }
   
   getChartOptions(totalSpending: number, budgetSpent: number): any {
-    const isTotalSpendingZero = totalSpending === 0;
-    const isBudgetSpentZero = budgetSpent === 0;
 
-    console.log('budgetSpent',budgetSpent,'totalSpending',totalSpending);
-    console.log(isBudgetSpentZero, isTotalSpendingZero);
+    // console.log('budgetSpent',budgetSpent,'totalSpending',totalSpending);
     
     const colors = ['#5680E9', '#8860D0'];
   

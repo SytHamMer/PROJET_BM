@@ -6,7 +6,7 @@ const moment = require('moment');
 //create income 
 exports.createIncome = async (req, res, next) => {
     const { name,value,date, category,idUser } = req.body;
-    console.log("DANS LE BACK")
+    // console.log("DANS LE BACK")
 
     try {
         const newIncome = await Income.create({ name,value, date, category,idUser });
@@ -60,7 +60,7 @@ exports.getAllIncomes = (req, res, next) => {
 
 exports.getByIDUser = (req, res, next) => {
     const { id } = req.params;
-    console.log(id)
+    // console.log(id)
     Income.find({ idUser: id })
       .then(incomes => {
         res.status(200).json({ incomes });
@@ -108,7 +108,7 @@ exports.getIncomestwoDates = (req, res, next) => {
     const { startDate, endDate } = req.body; 
     const formattedStartDate = moment(startDate, 'YYYY-MM').startOf('month');
     const formattedEndDate = moment(endDate, 'YYYY-MM').endOf('month');
-    console.log("ICICICICII")
+    
     Income.find({
         idUser: id ,
         date: {
@@ -117,7 +117,7 @@ exports.getIncomestwoDates = (req, res, next) => {
                     }    })
     .then(incomes => {incomes.forEach((income)=>{
         amount += income.value
-        console.log(income.value)
+        // console.log(income.value)
     })
     res.status(200).json(amount)}
         )

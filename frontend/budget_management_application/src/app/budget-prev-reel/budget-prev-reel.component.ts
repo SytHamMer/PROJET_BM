@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { PiechartBudgetService } from '../services/piechart-budget.service';
+import { BudgetService } from '../services/budget.service';
 import { ConnexionService } from '../services/connexion.service';
 import { UserService } from '../services/user.service';
 import ApexCharts from 'apexcharts';
@@ -20,7 +20,7 @@ export class BudgetPrevReelComponent {
   chart: ApexCharts | undefined;
 
   constructor(
-    private pieChartService: PiechartBudgetService,
+    private budgetService: BudgetService,
     private connexionService: ConnexionService,
     private userService: UserService
   ) {}
@@ -37,12 +37,12 @@ export class BudgetPrevReelComponent {
     const id = this.userId;
 
     if (id) {
-      this.pieChartService.getSpendingForLastSixMonths(id).subscribe(
+      this.budgetService.getSpendingForLastSixMonths(id).subscribe(
         (data: any) => {
           const endDate = new Date(); // Fin du mois actuel
           const startDate = new Date(endDate.getFullYear(), endDate.getMonth(), 1); // Début du mois actuel
           
-          this.pieChartService.getBudget(id, this.formatDate(startDate), this.formatDate(endDate)).subscribe(
+          this.budgetService.getBudget(id, this.formatDate(startDate), this.formatDate(endDate)).subscribe(
             (budget: any) => {              
               const chartOptions = this.getChartOptions(data, budget);
               const chart = new ApexCharts(document.querySelector('#column-chart'), chartOptions);
