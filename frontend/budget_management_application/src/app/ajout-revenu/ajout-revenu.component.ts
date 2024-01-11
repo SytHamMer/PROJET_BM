@@ -79,7 +79,20 @@ export class AjoutRevenuComponent{
       console.log(f.value.description)
       console.log(f.value.montant)
       console.log(date)
-      console.log("TU PEUX CREER")
+      const real_date = new Date(Date.now())
+
+      if (date != ""){
+        console.log("ici")
+        const real_date = new Date(date)
+        this.userService.createIncome(f.value.montant,real_date,category,this.userConnected.id).subscribe()
+        
+      }
+      else {
+        console.log(real_date)
+        this.userService.createIncome(f.value.montant,real_date,category,this.userConnected.id).subscribe()
+        
+      }
+      this.dialogRef.close()
 
     }
 

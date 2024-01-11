@@ -6,6 +6,7 @@ const moment = require('moment');
 //create income 
 exports.createIncome = async (req, res, next) => {
     const { value,date, category,idUser } = req.body;
+    console.log("DANS LE BACK")
 
     try {
         const newIncome = await Income.create({ value, date, category,idUser });
