@@ -28,7 +28,7 @@ export class PieChartComponent implements AfterViewInit {
   ) {}
 
   ngOnInit(): void {
-    const lastMonth = this.getLastMonth();    
+    const lastMonth = this.getMonth();    
     this.connexionService.getUserLoggedIn()
     .subscribe(user => {      
       this.userConnected = user as User;
@@ -38,21 +38,21 @@ export class PieChartComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    const lastMonth = this.getLastMonth();
+    const month = this.getMonth();
     if (this.startDateInput && this.endDateInput) {
-      this.startDateInput.nativeElement.value = lastMonth;
-      this.endDateInput.nativeElement.value = lastMonth;
+      this.startDateInput.nativeElement.value = month;
+      this.endDateInput.nativeElement.value = month;
       this.updateChart(); // Mettre à jour le graphique avec les valeurs par défaut du mois dernier
     }
   }
 
-  getLastMonth(): string {
+  getMonth(): string {
     const today = new Date();
-    today.setMonth(today.getMonth() - 1);
     const year = today.getFullYear();
     const month = (today.getMonth() + 1).toString().padStart(2, '0');
     return `${year}-${month}`;
   }
+  
 
   createDonutChart(lastMonth: string): void {
     const id = this.userId;

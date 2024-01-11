@@ -21,4 +21,44 @@ export class ActivityPageService {
     const body = {"startDate":startDate, "endDate":endDate };
     return this.http.post<any>(url,body)
   }
+
+  getAllSpendings(id_user: string): Observable<any> {
+  let url = `http://localhost:3000/api/spending/byIdUser/${id_user}`;
+
+  return this.http.get<any>(url)
+  .pipe(
+    catchError((error: HttpErrorResponse) => {
+      if (error.status === 401) {
+        console.error('recherche des dépenses échouée :', error);
+      } else {
+        console.log(url);
+        // Gérer d'autres erreurs HTTP
+        console.error('Erreur lors de la connexion :', error);
+      }
+
+      // Propager l'erreur pour permettre à d'autres parties de l'application de la gérer si nécessaire
+      return throwError(error);
+    })
+  );
+}
+
+getAllIncomes(id_user: string): Observable<any> {
+  let url = `http://localhost:3000/api/income/byIdUser/${id_user}`;
+  
+  return this.http.get<any>(url)
+  .pipe(
+    catchError((error: HttpErrorResponse) => {
+      if (error.status === 401) {
+        console.error('recherche des revenus échouée :', error);
+      } else {
+        console.log(url);
+        // Gérer d'autres erreurs HTTP
+        console.error('Erreur lors de la connexion :', error);
+      }
+
+      // Propager l'erreur pour permettre à d'autres parties de l'application de la gérer si nécessaire
+      return throwError(error);
+    })
+  );
+}
 }

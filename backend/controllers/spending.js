@@ -6,10 +6,10 @@ const moment = require('moment');
 
 // CREATE SPENDING 
 exports.createSpending = async (req, res, next) => {
-    const { value, date, category,idUser } = req.body;
+    const { name, value, date, category,idUser } = req.body;
 
     try {
-        const newSpending = await Spending.create({ value, date, category,idUser });
+        const newSpending = await Spending.create({ name, value, date, category,idUser });
 
         // add the spending to the category
         await Category.findByIdAndUpdate(

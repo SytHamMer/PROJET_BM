@@ -8,7 +8,7 @@ const moment = require('moment');
 exports.createCategory = (req, res, next) => {
   const  name  = req.body.name;
   const idUser  = req.body.idUser;
-  console.log(idUser); 
+  // console.log(idUser); 
   
   const category = new CategoryIncomes({ name, idUser });
 
@@ -40,8 +40,8 @@ exports.getByIDUser = (req, res, next) => {
   const { id } = req.params;
   CategoryIncomes.find({ idUser: id })
     .then(categories => {
-      console.log("category_incomes")
-      console.log(categories)
+      // console.log("category_incomes")
+      // console.log(categories)
       res.status(200).json({ categories });
     })
     .catch(error => {
@@ -64,7 +64,7 @@ exports.getTotalIncomesBetweenDates = (req, res, next) => {
   const formattedStartDate = moment(startDate, 'YYYY-MM').startOf('month');
   const formattedEndDate = moment(endDate, 'YYYY-MM').endOf('month');
   
-  console.log(formattedStartDate, formattedEndDate)
+  // console.log(formattedStartDate, formattedEndDate)
 
   CategoryIncomes.findById(id)
     .populate({
@@ -81,9 +81,9 @@ exports.getTotalIncomesBetweenDates = (req, res, next) => {
       if (!category) {
         return res.status(404).json({ message: 'Category not found' });
       }
-      console.log(category.incomes);
+      // console.log(category.incomes);
       const incomes = category.incomes.filter(s => s.date >= formattedStartDate && s.date <= formattedEndDate);
-      console.log(incomes);
+      // console.log(incomes);
       const totalIncome = incomes.reduce((total, s) => total + s.value, 0);
       res.status(200).json({ total_income_between_dates: totalIncome });
     })

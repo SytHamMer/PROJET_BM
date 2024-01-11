@@ -34,7 +34,7 @@ export class AjoutRevenuComponent{
               public dialog: MatDialog,
               private router: Router,
               protected connexionService: ConnexionService,
-              protected userService: UserService) {}
+              protected userService: UserService,) {}
 
   ngOnInit() {
     this.connexionService.getUserLoggedIn()
@@ -84,12 +84,12 @@ export class AjoutRevenuComponent{
       if (date != ""){
         console.log("ici")
         const real_date = new Date(date)
-        this.userService.createIncome(f.value.montant,real_date,category,this.userConnected.id).subscribe()
+        this.userService.createIncome(f.value.description,f.value.montant,real_date,category,this.userConnected.id).subscribe()
         
       }
       else {
         console.log(real_date)
-        this.userService.createIncome(f.value.montant,real_date,category,this.userConnected.id).subscribe()
+        this.userService.createIncome(f.value.description,f.value.montant,real_date,category,this.userConnected.id).subscribe()
         
       }
       this.dialogRef.close()

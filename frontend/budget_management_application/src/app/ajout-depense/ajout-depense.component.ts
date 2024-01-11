@@ -80,12 +80,12 @@ export class AjoutDepenseComponent{
       if (date != ""){
         console.log("ici")
         const real_date = new Date(date)
-        this.userService.createSpending(f.value.montant,real_date,category,this.userConnected.id).subscribe()
+        this.userService.createSpending(f.value.description, f.value.montant,real_date,category,this.userConnected.id).subscribe()
        
       }
       else {
         console.log(real_date)
-        this.userService.createSpending(f.value.montant,real_date,category,this.userConnected.id).subscribe()
+        this.userService.createSpending(f.value.description, f.value.montant,real_date,category,this.userConnected.id).subscribe()
        
       }
       this.dialogRef.close()

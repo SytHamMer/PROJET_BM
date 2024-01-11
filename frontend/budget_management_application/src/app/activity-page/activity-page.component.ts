@@ -192,4 +192,5 @@ export class ActivityPageComponent {
       height: '600px'
     });
   }
-}  
+
+}
