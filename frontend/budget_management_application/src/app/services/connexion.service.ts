@@ -70,4 +70,5 @@ export class ConnexionService {
   isUserConnected() {
     return localStorage.getItem("user_id") !== null;
   }
+  
 }

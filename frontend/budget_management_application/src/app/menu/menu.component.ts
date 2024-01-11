@@ -15,9 +15,10 @@ import { User } from '../models/user.model';
 })
 export class MenuComponent {
   isMenuPhoneHidden: boolean = true;
-  userConnected!: User;
+  userConnected: User | null = null;
   errorConnexion : any | undefined;
   username!:String;
+  userInformationRetrieved: boolean = false;
 
   constructor(private router: Router,
     protected connexionService: ConnexionService,
@@ -29,11 +30,28 @@ export class MenuComponent {
       this.userConnected = user as User;
       // console.log(this.userConnected);
       this.username=this.userConnected.username
+      this.userInformationRetrieved = true; // Set the flag when user information is retrieved
     })
   }
 
   toggleMobileMenu() {
     this.isMenuPhoneHidden = !this.isMenuPhoneHidden;
+  }
+
+  toggleSignInOut() {
+    if (this.userConnected) {
+      this.signOut();
+    } else {
+      this.signIn();
+    }
+  }
+  signOut() {
+    this.connexionService.logout();
+    this.router.navigate(['/']);
+  }
+
+  signIn() {
+    this.router.navigate(['/']);
   }
 }
 

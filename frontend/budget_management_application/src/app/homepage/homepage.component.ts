@@ -10,6 +10,7 @@ import { ConnexionService } from '../services/connexion.service';
 import { UserService } from '../services/user.service';
 import { User } from '../models/user.model';
 import { MenuComponent } from "../menu/menu.component";
+import { AjoutCategorieComponent } from '../ajout-categorie/ajout-categorie.component';
 
 @Component({
   selector: 'app-homepage',
@@ -49,6 +50,15 @@ export class HomepageComponent {
       height: '600px'
     });
   }
+
+  openNewCategory(): void {
+    this.dialog.open(AjoutCategorieComponent, {
+      panelClass: 'dialog-container',
+      width: '400px',
+      height: '600px'
+    });
+  }
+
 
   openNewIncome(): void {
     this.dialog.open(AjoutRevenuComponent, {
