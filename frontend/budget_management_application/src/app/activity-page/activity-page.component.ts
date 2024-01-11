@@ -11,6 +11,10 @@ import { ActivityPageService } from '../services/activity-page.service';
 import { AjoutDepenseComponent } from '../ajout-depense/ajout-depense.component';
 import { AjoutRevenuComponent } from '../ajout-revenu/ajout-revenu.component';
 import ApexCharts from 'apexcharts';
+import { PiechartBudgetService} from '../services/piechart-budget.service'
+
+
+
 
 @Component({
     selector: 'app-activity-page',
@@ -34,12 +38,15 @@ export class ActivityPageComponent {
   spendings: any[] = [];
   incomes: any[] = [];
   all: any[] = [];
+  totalSpendings: Number | undefined;
+  totalIncomes: Number | undefined;
 
   constructor(private router: Router,
     private activityPageService: ActivityPageService,
     protected connexionService: ConnexionService,
     public dialog: MatDialog,
-    protected userService: UserService) {}
+    protected userService: UserService,
+    protected piechartService : PiechartBudgetService) {}
   
     ngOnInit(): void {
       const lastMonth = this.getMonth(); 
@@ -68,8 +75,37 @@ export class ActivityPageComponent {
               console.error('Error fetching incomes: ', error);
             }
           );
+
+          this.piechartService.getSpendingBetweenDates(this.userConnected.id, "2000-01", "2030-01").subscribe(
+            (totalSpendingData) => {
+              this.totalSpendings = totalSpendingData;
+              console.log(this.totalSpendings);
+              this.checkAndCalculateTotal();
+            }
+          );
+      
+          this.piechartService.getIncomeBetweenDates(this.userConnected.id, "2000-01", "2030-01").subscribe(
+            (totalIncomeData) => {
+              this.totalIncomes = totalIncomeData;
+              console.log(this.totalIncomes);
+              this.checkAndCalculateTotal();
+            }
+          );
+
+
+
+
         });
-        this.total  = 999;
+
+    }
+
+
+    private checkAndCalculateTotal(): void {
+      if (this.totalIncomes !== undefined && this.totalSpendings !== undefined) {
+        this.total = Number(this.totalIncomes) - Number(this.totalSpendings);
+        console.log("ici");
+        console.log(this.total);
+      }
     }
     
     processData(): void {

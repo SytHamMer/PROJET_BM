@@ -3,17 +3,18 @@ import {Router, RouterLink} from "@angular/router";
 import {FormsModule, NgForm} from "@angular/forms";
 import { User } from '../models/user.model';
 import { ConnexionService } from '../services/connexion.service';
+import { PiechartBudgetService} from '../services/piechart-budget.service'
 import { CommonModule } from '@angular/common';
 import { UserService } from '../services/user.service';
 import { MenuComponent } from "../menu/menu.component";
-import { PieChartComponent } from '../piechart-budget/piechart-budget.component';
+import { PieChartComponent } from "../piechart-budget/piechart-budget.component";
 
 @Component({
     selector: 'app-user',
     standalone: true,
     templateUrl: './user.component.html',
     styleUrl: './user.component.scss',
-    imports: [CommonModule, FormsModule, RouterLink, MenuComponent,PieChartComponent]
+    imports: [CommonModule, FormsModule, RouterLink, MenuComponent, PieChartComponent]
 })
 export class UserComponent implements OnInit {
   submit = false;
@@ -26,34 +27,55 @@ export class UserComponent implements OnInit {
   firstUsername!:String;
   firstEmail!:String;
   total: Number | undefined;
-
+  totalSpendings: Number | undefined;
+  totalIncomes: Number | undefined;
 
 
   constructor(private router: Router,
     protected connexionService: ConnexionService,
-    protected userService: UserService) {}
+    protected userService: UserService,
+    protected piechartService : PiechartBudgetService) {}
 
 
 
 
 
-  ngOnInit(): void {
-    this.connexionService.getUserLoggedIn()
-    .subscribe(user => {
-      this.userConnected = user as User;
-      console.log("dans user component")
-      console.log(this.userConnected);
-      this.firstUsername = this.userConnected.username
-      this.firstEmail= this.userConnected.email
-
-      this.username=this.userConnected.username
-      this.email=this.userConnected.email
-
-      
-    })
-    this.total  = 999
-  }
-
+    ngOnInit(): void {
+      this.connexionService.getUserLoggedIn().subscribe(user => {
+        this.userConnected = user as User;
+    
+        this.firstUsername = this.userConnected.username;
+        this.firstEmail = this.userConnected.email;
+    
+        this.username = this.userConnected.username;
+        this.email = this.userConnected.email;
+    
+        this.piechartService.getSpendingBetweenDates(this.userConnected.id, "2000-01", "2030-01").subscribe(
+          (totalSpendingData) => {
+            this.totalSpendings = totalSpendingData;
+            console.log(this.totalSpendings);
+            this.checkAndCalculateTotal();
+          }
+        );
+    
+        this.piechartService.getIncomeBetweenDates(this.userConnected.id, "2000-01", "2030-01").subscribe(
+          (totalIncomeData) => {
+            this.totalIncomes = totalIncomeData;
+            console.log(this.totalIncomes);
+            this.checkAndCalculateTotal();
+          }
+        );
+      });
+    }
+    
+    private checkAndCalculateTotal(): void {
+      if (this.totalIncomes !== undefined && this.totalSpendings !== undefined) {
+        this.total = Number(this.totalIncomes) - Number(this.totalSpendings);
+        console.log("ici");
+        console.log(this.total);
+      }
+    }
+    
 
 
     onSubmit(lf: NgForm) {

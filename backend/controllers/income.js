@@ -108,6 +108,7 @@ exports.getIncomestwoDates = (req, res, next) => {
     const { startDate, endDate } = req.body; 
     const formattedStartDate = moment(startDate, 'YYYY-MM').startOf('month');
     const formattedEndDate = moment(endDate, 'YYYY-MM').endOf('month');
+    console.log("ICICICICII")
     Income.find({
         idUser: id ,
         date: {
