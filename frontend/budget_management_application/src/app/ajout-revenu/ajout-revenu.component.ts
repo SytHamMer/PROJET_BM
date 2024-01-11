@@ -78,7 +78,6 @@ export class AjoutRevenuComponent{
     if (f.value.description != "" && f.value.montant != "" && category !="undefined"){
       console.log(f.value.description)
       console.log(f.value.montant)
-      console.log(date)
       console.log("TU PEUX CREER")
 
     }

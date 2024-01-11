@@ -248,4 +248,24 @@ export class UserService {
     const data = {"value":value,"date":date,"category":id_category,"idUser": id_user}
     return this.http.post<any>(url,data)
   }
+
+  createSpending(value : Number,date : Date ,id_category: string,id_user: string  ) : Observable<any> {
+    const url = `http://localhost:3000/api/spending/create/`;
+    const data = {"value":value,"date":date,"category":id_category,"idUser": id_user}
+    return this.http.post<any>(url,data)
+    .pipe(
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 400) {
+          // Cas où l'authentification a échoué
+          console.error('Register échouée :', error);
+        } else {
+          // Autres erreurs HTTP
+          console.error('Erreur lors du register :', error);
+        }
+
+        // Propager l'erreur pour permettre à d'autres parties de l'application de la gérer si nécessaire
+        return throwError(error);
+      })
+    )
+  }
 }

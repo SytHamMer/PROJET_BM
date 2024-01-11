@@ -67,24 +67,29 @@ export class AjoutDepenseComponent{
 
 
   onSubmit(f: NgForm) {
-
     this.errorLogin = undefined;    
     this.submit = true;
     this.isLoading = true;
-    
+    const category = (document.getElementById('categories') as HTMLInputElement).value;
+    const date = (document.getElementById('date') as HTMLInputElement).value;
+    console.log("dans le submit")
+    console.log(category)
+    if (f.value.description != "" && f.value.montant != "" && category !="undefined"){
+      const real_date = new Date(Date.now())
+ 
+      if (date != ""){
+        console.log("ici")
+        const real_date = new Date(date)
+        this.userService.createSpending(f.value.montant,real_date,category,this.userConnected.id).subscribe()
+       
+      }
+      else {
+        console.log(real_date)
+        this.userService.createSpending(f.value.montant,real_date,category,this.userConnected.id).subscribe()
+       
+      }
+      this.dialogRef.close()
 
-    if (f.value.email != ""  && f.value.password != "" && !this.errorLoginExist()){
-      this.connexionService.login(f.value.email, f.value.password)
-        .subscribe
-        (user => {
-          this.userConnected = user;
-          this.router.navigateByUrl("/home");
-        },
-        error => {
-          console.error('Erreur lors de la connexion :', error.error.message);
-          this.errorLogin = error.error;
-        })
-      
     }
 
   }
