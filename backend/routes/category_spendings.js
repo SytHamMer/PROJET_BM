@@ -20,3 +20,4 @@ router.get('/byIdUser/:id',categorySpendingsCtrl.getByIDUser);
 
 
 module.exports = router;
+

@@ -86,7 +86,6 @@ exports.getTotalSpendingsBetweenDates = (req, res, next) => {
   const formattedStartDate = moment(startDate, 'YYYY-MM').startOf('month');
   const formattedEndDate = moment(endDate, 'YYYY-MM').endOf('month');
   
-  // console.log(formattedStartDate, formattedEndDate)
   CategorySpendings.findById(id)
     .populate({
       path: 'spendings',
@@ -122,7 +121,7 @@ exports.getTotalBudget = (req, res, next) => {
     categories.forEach((c) => {
       amount += c.monthly_limit;
     });
-    res.status(200).json({ amount });  
+    res.status(200).json(amount);  
   })
   .catch(error => {
     res.status(400).json({ error: error.message });
@@ -160,6 +159,81 @@ exports.getEachCategorySpendingsTotal = async (req, res, next) => {
       };
     }
  
+    res.status(200).json(categorySpendingsTotal);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+// GET SPENDINGTOTALS FOR EACH CATEGORY BY USER
+exports.getEachCategorySpendingsTotal = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { startDate, endDate } = req.body;
+    const formattedStartDate = moment(startDate, 'YYYY-MM').startOf('month');
+    const formattedEndDate = moment(endDate, 'YYYY-MM').endOf('month');
+    console.log(formattedStartDate, formattedEndDate, id);
+ 
+    const categoryTotals = await CategorySpendings.find({ idUser: id });
+ 
+    // Formatage des résultats en un objet avec le nom de la catégorie comme clé et liste des dépenses
+    const categorySpendingsTotal = {};
+ 
+    // Parcourir chaque catégorie
+    for (const category of categoryTotals) {
+      const spendingsDetails = await Spending.find({
+        _id: { $in: category.spendings }, // Rechercher les dépenses associées à la catégorie
+        date: { $gte: formattedStartDate, $lte: formattedEndDate } // Filtrer par intervalle de dates
+      });
+ 
+      // Calculer la somme des valeurs de dépenses
+      const totalValue = spendingsDetails.reduce((total, spending) => total + spending.value, 0);
+ 
+      // Ajouter les détails à l'objet de résultats
+      categorySpendingsTotal[category.name] = {
+        monthlyLimit: category.monthly_limit,
+        totalValue: totalValue
+      };
+    }
+ 
+    res.status(200).json(categorySpendingsTotal);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+
+
+exports.getEachCategorySpendingsTotal = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { startDate, endDate } = req.body;
+    const formattedStartDate = moment(startDate, 'YYYY-MM').startOf('month');
+    const formattedEndDate = moment(endDate, 'YYYY-MM').endOf('month');
+    console.log(formattedStartDate, formattedEndDate, id);
+
+    const categoryTotals = await CategorySpendings.find({ idUser: id });
+
+    // Formatage des résultats en un objet avec le nom de la catégorie comme clé et liste des dépenses
+    const categorySpendingsTotal = {};
+
+    // Parcourir chaque catégorie
+    for (const category of categoryTotals) {
+      const spendingsDetails = await Spending.find({
+        _id: { $in: category.spendings }, // Rechercher les dépenses associées à la catégorie
+        date: { $gte: formattedStartDate, $lte: formattedEndDate } // Filtrer par intervalle de dates
+      });
+
+      // Calculer la somme des valeurs de dépenses
+      const totalValue = spendingsDetails.reduce((total, spending) => total + spending.value, 0);
+
+      // Ajouter les détails à l'objet de résultats
+      categorySpendingsTotal[category.name] = {
+        monthlyLimit: category.monthly_limit,
+        totalValue: totalValue
+      };
+    }
+
     res.status(200).json(categorySpendingsTotal);
   } catch (error) {
     res.status(400).json({ error: error.message });
