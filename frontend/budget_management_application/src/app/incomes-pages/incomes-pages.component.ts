@@ -9,19 +9,19 @@ import { MenuComponent } from "../menu/menu.component";
 import { ActivityPageService } from '../services/activity-page.service';
 
 @Component({
-    selector: 'app-spending-page',
+    selector: 'app-incomes-page',
     standalone: true,
-    templateUrl: './spending-page.component.html',
-    styleUrl: './spending-page.component.scss',
+    templateUrl: './incomes-pages.component.html',
+    styleUrl: './incomes-pages.component.scss',
     imports: [CommonModule, PieChartComponent, MenuComponent]
 })
-export class SpendingPageComponent {
+export class IncomesPageComponent {
   isMenuPhoneHidden: boolean = true;  submit = false;
   submitR = false;
   userConnected!: User;
   errorConnexion : any | undefined;
   username!:String;
-  spendings: any[] = [];
+  incomes: any[] = [];
   userId: string | undefined;
 
 
@@ -36,14 +36,16 @@ export class SpendingPageComponent {
         this.userConnected = user as User;
         this.userId = this.userConnected.id;
         this.username=this.userConnected.username;
-        this.activityPageService.getAllSpendings(this.userId).subscribe(
+        this.activityPageService.getAllIncomes(this.userId).subscribe(
           (data: any) => {
-            this.spendings = data.spendings;
+            this.incomes = data.incomes;
           },
           (error: any) => {
-            console.error('Error fetching spendings: ', error);
+            console.error('Error fetching incomes: ', error);
           }
         );
+        console.log(this.incomes);
+        
       })
     }
 

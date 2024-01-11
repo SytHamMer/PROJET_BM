@@ -8,6 +8,7 @@ import { AjoutCategorieComponent } from './ajout-categorie/ajout-categorie.compo
 import { UserComponent } from './user/user.component';
 import { SpendingPageComponent } from './spending-page/spending-page.component';
 import { ActivityPageComponent } from './activity-page/activity-page.component';
+import { IncomesPageComponent } from './incomes-pages/incomes-pages.component';
 
 export const routes: Routes = [
     { path: 'signup', component: InscriptionComponent },
@@ -15,6 +16,7 @@ export const routes: Routes = [
     { path: 'home', component: HomepageComponent},
     {path:'user',component: UserComponent},
     { path: 'spending', component: SpendingPageComponent},
+    { path: 'incomes', component: IncomesPageComponent},
     { path: 'activity', component: ActivityPageComponent}
 
 ];
