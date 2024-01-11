@@ -42,12 +42,13 @@ export class ActivityPageComponent {
     protected userService: UserService) {}
   
     ngOnInit(): void {
+      const lastMonth = this.getMonth(); 
       this.connexionService.getUserLoggedIn()
         .subscribe(user => {
           this.userConnected = user as User;
           this.userId = this.userConnected.id;
           this.username = this.userConnected.username;
-    
+          this.createDonutChart(lastMonth)
           this.activityPageService.getAllSpendings(this.userId).subscribe(
             (data: any) => {
               this.spendings = data.spendings;
