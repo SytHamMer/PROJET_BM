@@ -231,22 +231,37 @@ export class UserService {
 
   getListAllCategoriesSpendings(id_user: string) : Observable<any>  {
     const url = `http://localhost:3000/api/category_spendings/byIdUser/${id_user}`;
-    console.log(id_user)
+    // console.log(id_user)
     return this.http.get<any[]>(url).pipe((
       map((data:any)=> {
-        console.log("OUI")
+        // console.log("OUI")
         return data.categories.map((category: any) => {
-          console.log(category)
+          // console.log(category)
           return new CategorieSpendings(category._id, category.idUser,category.name,category.monthly_limit)
         })
       })
     )); 
   }
 
-  createIncome(value : Number,date : Date ,id_category: string,id_user: string  ) : Observable<any> {
+  createIncome(value : Number,date : Date ,id_category: string,id_user: string  ) : Observable<any>  {
     const url = `http://localhost:3000/api/income/create/`;
     const data = {"value":value,"date":date,"category":id_category,"idUser": id_user}
+    console.log("dans createIncome")
+    console.log(data)
     return this.http.post<any>(url,data)
+    .pipe(
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 400) {
+          // Cas où l'authentification a échoué
+          console.error('Register échouée :', error);
+        } else {
+          // Autres erreurs HTTP
+        console.error('BIZARRE :', error);
+        }
+
+        return throwError(error);
+      })
+    )
   }
 
   createSpending(value : Number,date : Date ,id_category: string,id_user: string  ) : Observable<any> {
