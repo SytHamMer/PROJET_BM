@@ -110,7 +110,7 @@ export class ActivityPageComponent {
           const totalSpending = totalSpendingData;
   
           // Deuxième requête pour récupérer le budget déjà dépensé par rapport à l'autre valeur
-          this.pieChartService.getBudgetSpent(id, startDate, endDate).subscribe(
+          this.pieChartService.getBudget(id, startDate, endDate).subscribe(
             (budgetSpentData: any) => {
               const budgetSpent = budgetSpentData;
   

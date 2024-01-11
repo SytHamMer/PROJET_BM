@@ -17,6 +17,7 @@ import { User } from '../models/user.model';
 export class BudgetPrevReelComponent {
   userId: string | undefined;
   userConnected!: User;
+  chart: ApexCharts | undefined;
 
   constructor(
     private pieChartService: PiechartBudgetService,
@@ -25,30 +26,32 @@ export class BudgetPrevReelComponent {
   ) {}
 
   ngOnInit(): void {
-    this.connexionService.getUserLoggedIn()
-    .subscribe(user => {
+    this.connexionService.getUserLoggedIn().subscribe(user => {
       this.userConnected = user as User;
       this.userId = this.userConnected.id;
-    })
+      this.createChart();
+    });
   }
 
-  // ...
+  createChart(): void {
+    const id = this.userId;
 
-  updateChart(): void {
-    const currentDate = new Date();
-    const sixMonthsAgo = new Date(currentDate.getFullYear(), currentDate.getMonth() - 6, 1);
-    const startDate = `${sixMonthsAgo.getFullYear()}-${(sixMonthsAgo.getMonth() + 1).toString().padStart(2, '0')}`;
-    
-    const currentMonth = currentDate.getMonth() + 1; // Récupère le mois actuel
-    const currentYear = currentDate.getFullYear();
-    const endDate = `${currentYear}-${currentMonth.toString().padStart(2, '0')}`;
-    
-    if (this.userId) {
-      this.pieChartService.getBudget(this.userId, startDate, endDate).subscribe(
+    if (id) {
+      this.pieChartService.getSpendingForLastSixMonths(id).subscribe(
         (data: any) => {
-          const chartOptions = this.getChartOptions(data);
-          const chart = new ApexCharts(document.querySelector('#column-chart'), chartOptions);
-          chart.render();
+          const endDate = new Date(); // Fin du mois actuel
+          const startDate = new Date(endDate.getFullYear(), endDate.getMonth(), 1); // Début du mois actuel
+          
+          this.pieChartService.getBudget(id, this.formatDate(startDate), this.formatDate(endDate)).subscribe(
+            (budget: any) => {              
+              const chartOptions = this.getChartOptions(data, budget);
+              const chart = new ApexCharts(document.querySelector('#column-chart'), chartOptions);
+              chart.render();
+            },
+            (error: any) => {
+              console.error('Erreur lors de la récupération du budget : ', error);
+            }
+          );
         },
         (error: any) => {
           console.error('Erreur lors de la récupération des données : ', error);
@@ -58,30 +61,37 @@ export class BudgetPrevReelComponent {
       console.warn('Veuillez vérifier l\'ID utilisateur.');
     }
   }
-  
 
-getChartOptions(data: any): any {
-  // Utiliser les données reçues pour construire les nouvelles options du graphique
-  return {
-    series: [
-      {
-        name: 'Budget Prévu',
-        data: data.budgetsPrevus // Supposons que "budgetsPrevus" contient les budgets prévus pour les 6 derniers mois
+
+  getChartOptions(data: any, budget: any): any {
+    const colors = ['#5680E9', '#8860D0'];
+
+    // Utiliser les données reçues pour construire les nouvelles options du graphique
+    return {
+      colors: colors,
+      series: [
+        {
+          name: 'Budget Prévu',
+          data: [budget,budget,budget,budget,budget,budget],
+        },
+        {
+          name: 'Budget Réel Dépensé',
+          data: data.map((entry: { totalSpending: any }) => entry.totalSpending),
+        },
+      ],
+
+      chart: {
+        height: 320,
+        width: '100%',
+        type: 'bar',
       },
-      {
-        name: 'Budget Réel Dépensé',
-        data: data.budgetsReels // Supposons que "budgetsReels" contient les budgets réels dépensés pour les 6 derniers mois
+      xaxis: {
+        categories: data.map((entry: { startDate: any }) => entry.startDate),
       }
-    ],
-    chart: {
-      height: 320,
-      width: '100%',
-      type: 'bar', // Type de graphique en colonnes
-    },
-    xaxis: {
-      categories: data.months // Supposons que "months" contient les mois correspondants aux budgets
-    }
-  };
-}
+    };
+  }
 
+  formatDate(date: Date): string {
+    return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+  }
 }
